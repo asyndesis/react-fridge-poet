@@ -6,7 +6,6 @@
   overflow:hidden;
 }
 body{
-  touch-action: none;
   overscroll-behavior: none;
 }
 .magnet{
@@ -17,6 +16,7 @@ body{
   border:1px solid #CCC;
   transition:.3s ease all;
   cursor:move;
+  overscroll-behavior: none;
 }
 .magnet-placeholder{
   background:#FFF;
