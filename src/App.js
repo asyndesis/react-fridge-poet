@@ -8,9 +8,14 @@ import "./App.css";
 class App extends Component {
   constructor(props){
     super(props);
+    this.preventPullToRefresh = e =>{
+      document.addEventListener("touchmove", function(e){
+        e.preventDefault(); 
+      }, {passive: false});
+    }
   }
   componentDidMount(){
-
+    this.preventPullToRefresh();
   }
   render() {
     return (
