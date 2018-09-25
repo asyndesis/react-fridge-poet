@@ -1,9 +1,10 @@
 #fridge{
-  background:#AAA;
+  background:#CFF;
   width:100%;
   height:100vh;
   position:relative;
   overflow:hidden;
+  overscroll-behavior: contain;
 }
 .magnet{
   background:#FFF;
