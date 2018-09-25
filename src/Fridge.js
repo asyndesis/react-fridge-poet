@@ -58,6 +58,7 @@ class Fridge extends React.Component{
         this.onDrag = e => {
             let theX;
             let theY;
+            //console.log(e.nativeEvent);
             if (e.nativeEvent.touches){
                 theX = e.nativeEvent.touches[0].clientX;
                 theY = e.nativeEvent.touches[0].clientY;
@@ -87,7 +88,7 @@ class Fridge extends React.Component{
                 <div className="magnet-placeholder" style={{left:this.state.currentX,top:this.state.currentY}}>{this.state.currentMagnet.word}</div>
                 {this.state.magnets.map(magnet => {
                     return (
-                        <Magnet x={magnet.x}
+                        <Magnet draggable x={magnet.x}
                                 y={magnet.y}
                                 key={magnet.id}
                                 onTouchStart={e => this.onStartDrag(e,magnet)}

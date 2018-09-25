@@ -1,11 +1,12 @@
 #fridge{
   background:#CCC;
-  width:150vw;
-  height:150vh;
+  width:100%;
+  height:100vh;
   position:relative;
-  overscroll-behavior: contain;
+  overflow:hidden;
 }
 body{
+  touch-action: none;
   overscroll-behavior: none;
 }
 .magnet{
