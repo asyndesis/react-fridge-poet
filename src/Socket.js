@@ -1,3 +1,8 @@
 import io from "socket.io-client";
-export const Socket = io.connect('http://localhost:8000');
+if (process.env.NODE_ENV === 'production') { 
+    var server = 'https://fridge-poet.herokuapp.com/';
+}else{
+    var server = 'http://localhost:8000';
+}
+export const Socket = io.connect(server);
 export default '';

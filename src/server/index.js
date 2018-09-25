@@ -1,7 +1,8 @@
+const port = process.env.PORT || 8000;
 const path = require('path');
 const express = require('express');
 const app = express();
-const server = app.listen();
+const server = app.listen(port);
 const socket = require('socket.io');
 const magnets = require('./magnets');
 io = socket(server);
@@ -9,6 +10,8 @@ io = socket(server);
 app.use(express.static(path.join(__dirname,'../../build')));
 app.get('/',(req,res,next) =>
     res.sendFile(__dirname+'./index.html'));
+
+console.log('index.js running');
 
 const spawnRooms = () => {
     let rooms = [
