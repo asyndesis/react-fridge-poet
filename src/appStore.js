@@ -13,6 +13,11 @@ const appStore = store({
   deleteContact (contact) {
     const idx = appStore.contacts.indexOf(contact)
     appStore.contacts.splice(idx, 1)
+  },
+  async fetchBeers (filter) {
+    //appStore.isLoading = true
+    //appStore.beers = await api.fetchBeers(filter)
+    //appStore.isLoading = false
   }
 })
 

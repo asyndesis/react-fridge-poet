@@ -1,27 +1,16 @@
+const port = process.env.PORT || 8000;
 var express = require('express');
 var app = express();
-server = app.listen(8000, function(){
-    console.log('server is running on port 8000')
-});
+server = app.listen(port);
 var socket = require('socket.io');
+var magnets = require('./magnets');
 io = socket(server);
-
-
-const spawnMagnets = () => {
-    let magnets = [
-        {id:0, word: 'ing', x:10, y:20},
-        {id:1, word: 'fart', x:30, y:50},
-        {id:2, word: 'I', x:100,y:150},
-        {id:3, word: 'am', x:100,y:150},
-    ];
-    return magnets;
-}
 
 const spawnRooms = () => {
     let rooms = [
-        {id: 'room1', name:'Room 1', users:0, magnets: spawnMagnets()},
-        {id: 'room2', name:'Room 2', users:0, magnets: spawnMagnets()},
-        {id: 'room3', name:'Room 3', users:0, magnets: spawnMagnets()},
+        {id: 'room1', name:'Room 1', users:0, magnets: magnets.spawnMagnets()},
+        {id: 'room2', name:'Room 2', users:0, magnets: magnets.spawnMagnets()},
+        {id: 'room3', name:'Room 3', users:0, magnets: magnets.spawnMagnets()},
     ];
     return rooms;
 }

@@ -28,7 +28,7 @@ class Rooms extends React.Component{
     render(){
         return (
             <div className="container pad-top">
-            <div className="card floaty">
+            <div className="card">
                 <div className="card-body">
                     <div className="card-title">Rooms List</div>
                     <hr/>

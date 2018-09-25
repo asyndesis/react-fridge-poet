@@ -11,6 +11,8 @@ class Fridge extends React.Component{
             isDragging: false,
             currentX:0,
             currentY:0,
+            offsetX:0,
+            offsetY:0,
             currentMagnet:-1
         };
 
@@ -29,17 +31,22 @@ class Fridge extends React.Component{
             !this.isCancelled && this.setState({magnets: data});
         };
 
-        this.onStartDrag = magnet => {
+        this.onStartDrag = (e,magnet) => {
+            let mag = e.currentTarget;
+            let offsetX = (mag.offsetWidth/2);
+            let offsetY = (mag.offsetHeight/2);
+
             !this.isCancelled && this.setState({
                isDragging:true,
                currentMagnet:magnet,
+               offsetX: offsetX,
+               offsetY: offsetY,
                currentX: magnet.x,
                currentY: magnet.y
             });
         };
 
         this.onStopDrag = e => {
-            
             this.socket.emit('MOVE_MAGNET', {
                 magnet_id: this.state.currentMagnet.id,
                 x: this.state.currentX,
@@ -51,8 +58,8 @@ class Fridge extends React.Component{
         this.onDrag = e => {
             if (this.state.isDragging && this.state.currentMagnet !== -1){
                 !this.isCancelled && this.setState({
-                    currentX: e.nativeEvent.layerX,
-                    currentY: e.nativeEvent.layerY
+                    currentX: e.nativeEvent.layerX-this.state.offsetX,
+                    currentY: e.nativeEvent.layerY-this.state.offsetY
                 });
             }
         }
@@ -70,7 +77,7 @@ class Fridge extends React.Component{
                         <Magnet x={magnet.x}
                                 y={magnet.y}
                                 key={magnet.id}
-                                onMouseDown={() => this.onStartDrag(magnet)}
+                                onMouseDown={e => this.onStartDrag(e,magnet)}
                                 onMouseUp={this.onStopDrag}
                                 selected={(this.state.currentMagnet.id === magnet.id ? true : false)}
                                 >
