@@ -8,7 +8,8 @@ import "./App.css";
 class App extends Component {
   constructor(props){
     super(props);
-    this.preventPullToRefresh = e =>{
+    /* Ugly hack to disable pull down refresh */
+    this.preventPullToRefresh = () => {
       document.addEventListener("touchmove", function(e){
         e.preventDefault(); 
       }, {passive: false});
