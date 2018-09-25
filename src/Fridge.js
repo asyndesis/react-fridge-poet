@@ -56,10 +56,19 @@ class Fridge extends React.Component{
         };
 
         this.onDrag = e => {
+            let theX;
+            let theY;
+            if (e.nativeEvent.touches){
+                theX = e.nativeEvent.touches[0].clientX;
+                theY = e.nativeEvent.touches[0].clientY;
+            }else{
+                theX = e.nativeEvent.layerX;
+                theY = e.nativeEvent.layerY;
+            }
             if (this.state.isDragging && this.state.currentMagnet !== -1){
                 !this.isCancelled && this.setState({
-                    currentX: e.nativeEvent.layerX-this.state.offsetX,
-                    currentY: e.nativeEvent.layerY-this.state.offsetY
+                    currentX: theX-this.state.offsetX,
+                    currentY: theY-this.state.offsetY
                 });
             }
         }
@@ -71,18 +80,18 @@ class Fridge extends React.Component{
     render(){
         return (
             <div id="fridge" 
-            onTouchMove={this.onDrag}
+            onMouseUp={this.onStopDrag}
             onMouseMove={this.onDrag}
-            onTouchEnd={this.onStopDrag}
-            onMouseUp={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
+            onTouchMove={this.onDrag}
+            onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
                 <div className="magnet-placeholder" style={{left:this.state.currentX,top:this.state.currentY}}>{this.state.currentMagnet.word}</div>
                 {this.state.magnets.map(magnet => {
                     return (
                         <Magnet x={magnet.x}
                                 y={magnet.y}
                                 key={magnet.id}
-                                onMouseDown={e => this.onStartDrag(e,magnet)}
                                 onTouchStart={e => this.onStartDrag(e,magnet)}
+                                onMouseDown={e => this.onStartDrag(e,magnet)}
                                 onMouseUp={this.onStopDrag}
                                 onTouchEnd={this.onStopDrag}
                                 selected={(this.state.currentMagnet.id === magnet.id ? true : false)}

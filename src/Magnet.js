@@ -9,6 +9,8 @@ class Magnet extends React.Component{
             id={this.props.id}
             onMouseDown={this.props.onMouseDown}
             onMouseUp={this.props.onMouseUp}
+            onTouchStart={this.props.onTouchStart}
+            onTouchEnd={this.props.onTouchEnd}
             style={{left: this.props.x+'px', top: this.props.y+'px',opacity: (this.props.selected ? '.5' : '1')}}>
                 {this.props.children}
             </div>
