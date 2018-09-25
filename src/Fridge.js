@@ -70,7 +70,11 @@ class Fridge extends React.Component{
     }
     render(){
         return (
-            <div id="fridge" onMouseMove={this.onDrag} onMouseUp={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
+            <div id="fridge" 
+            onTouchMove={this.onDrag}
+            onMouseMove={this.onDrag}
+            onTouchEnd={this.onStopDrag}
+            onMouseUp={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
                 <div className="magnet-placeholder" style={{left:this.state.currentX,top:this.state.currentY}}>{this.state.currentMagnet.word}</div>
                 {this.state.magnets.map(magnet => {
                     return (
@@ -78,7 +82,9 @@ class Fridge extends React.Component{
                                 y={magnet.y}
                                 key={magnet.id}
                                 onMouseDown={e => this.onStartDrag(e,magnet)}
+                                onTouchStart={e => this.onStartDrag(e,magnet)}
                                 onMouseUp={this.onStopDrag}
+                                onTouchEnd={this.onStopDrag}
                                 selected={(this.state.currentMagnet.id === magnet.id ? true : false)}
                                 >
                                 {magnet.word}
