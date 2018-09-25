@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.16.3",
+    "nodemon": "^1.18.4",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-easy-state": "^5.1.0",
@@ -21,7 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "node src/server/index.js",
+    "server": "nodemon src/server/index.js",
     "postinstall": "react-scripts build"
   }
 }
