@@ -4,9 +4,11 @@
   height:100vh;
   position:relative;
   overflow:hidden;
+  overscroll-behavior: contain;
 }
-body{
-  overscroll-behavior: none;
+html,
+body {
+    overscroll-behavior-y: contain;
 }
 .magnet{
   background:#FFF;
@@ -16,7 +18,7 @@ body{
   border:1px solid #CCC;
   transition:.3s ease all;
   cursor:move;
-  overscroll-behavior: none;
+  overscroll-behavior: contain;
 }
 .magnet-placeholder{
   background:#FFF;
