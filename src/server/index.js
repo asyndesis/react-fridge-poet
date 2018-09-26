@@ -16,9 +16,10 @@ console.log('index.js running');
 
 const spawnRooms = () => {
     let rooms = [
-        {id: 'room1', name:'Room 1', users:0, magnets: magnets.spawnMagnets()},
-        {id: 'room2', name:'Room 2', users:0, magnets: magnets.spawnMagnets()},
-        {id: 'room3', name:'Room 3', users:0, magnets: magnets.spawnMagnets()},
+        {id: 'basic1', name:'Basic Room 1', users:0, magnets: magnets.spawnMagnets('basic')},
+        {id: 'basic2', name:'Basic Room 2', users:0, magnets: magnets.spawnMagnets('basic')},
+        {id: 'poet', name:'Poet Room 1', users:0, magnets: magnets.spawnMagnets('poet')},
+        {id: 'poet2', name:'Poet Room 2', users:0, magnets: magnets.spawnMagnets('poet')},
     ];
     return rooms;
 }
