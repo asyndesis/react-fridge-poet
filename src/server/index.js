@@ -82,9 +82,9 @@ io.on('connection', (socket) => {
         if (data.magnet_id == undefined){
             return false;
         }
-
-        room.magnets.find(r => r.id === data.magnet_id).x = data.x;
-        room.magnets.find(r => r.id === data.magnet_id).y = data.y;
+        let magnet = room.magnets.find(r => r.id === data.magnet_id);
+        magnet.x = data.x;
+        magnet.y = data.y;
 
         io.to(room.id).emit('POPULATE_MAGNETS', room.magnets);
   
