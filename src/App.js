@@ -31,7 +31,7 @@ class App extends Component {
     }
   }
   componentDidMount(){
-    this.preventPullToRefresh();
+    //this.preventPullToRefresh();
   }
   render() {
     return (
