@@ -20,6 +20,8 @@ const spawnRooms = () => {
         {id: 'basic2', name:'Basic Room 2', users:0, magnets: magnets.spawnMagnets('basic')},
         {id: 'poet', name:'Poet Room 1', users:0, magnets: magnets.spawnMagnets('poet')},
         {id: 'poet2', name:'Poet Room 2', users:0, magnets: magnets.spawnMagnets('poet')},
+        {id: 'dbag', name:'D-Bag Room', users:0, magnets: magnets.spawnMagnets('dbag')},
+        {id: 'dong', name:'Dong Room', users:0, magnets: magnets.spawnMagnets('dong')},
     ];
     return rooms;
 }
