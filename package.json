@@ -19,10 +19,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "concurrently \"npm run start\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "server": "nodemon src/server/index.js",
     "postinstall": "react-scripts build"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
   }
 }

@@ -62,6 +62,9 @@ io.on('connection', (socket) => {
 
     socket.on('JOIN_ROOM', function(data){
         let room = rooms.find(r => r.id === data.room_id);
+        if (room == undefined){
+            return false;
+        }
         room.users++;
         socketLeaveAllRooms(socket);
         updateRoomUsers();

@@ -32,6 +32,9 @@ class Rooms extends React.Component{
                 <div className="card-body">
                     <div className="card-title">Rooms List</div>
                     <hr/>
+                    <div style={{display: (appStore.rooms.length > 0 ? 'none' : 'flex')}} className="loading">
+                        <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+                    </div>
                     <div className="rooms list-group">
                         {appStore.rooms.map(room => {
                             return (
