@@ -10,8 +10,23 @@ class App extends Component {
     super(props);
     /* Ugly hack to disable pull down refresh */
     this.preventPullToRefresh = () => {
-      document.addEventListener("touchmove", function(e){
-        e.preventDefault(); 
+      var prevent = false;
+
+      document.querySelector('#fridge').addEventListener('touchstart', function(e){
+        if (e.touches.length !== 1) { return; }
+        
+        var scrollY = window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
+        prevent = (scrollY === 0);
+      }, {passive: false});
+  
+      document.querySelector('#fridge').addEventListener('touchmove', function(e){
+        if (e.target.classList[0] === "magnet"){
+          prevent = true;
+        }
+        if (prevent) {
+          prevent = false;
+          e.preventDefault();
+        }
       }, {passive: false});
     }
   }

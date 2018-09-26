@@ -61,7 +61,6 @@ class Fridge extends React.Component{
             let doc = document.documentElement;
             let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
             let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-            console.log(left,top);
             if (e.nativeEvent.touches){
                 theX = e.nativeEvent.touches[0].clientX + left;
                 theY = e.nativeEvent.touches[0].clientY + top;
