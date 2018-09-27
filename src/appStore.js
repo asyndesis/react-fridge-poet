@@ -4,20 +4,11 @@ import { store } from 'react-easy-state'
 // use 'appStore' instead of 'this' in the store methods to make them passable as callbacks
 const appStore = store({
   rooms: [],
-  contacts: [],
-  addContact (contact) {
-    contact.name = contact.name || 'Placeholder'
-    contact.email = contact.email || 'Placeholder'
-    appStore.contacts.push(contact)
-  },
-  deleteContact (contact) {
-    const idx = appStore.contacts.indexOf(contact)
-    appStore.contacts.splice(idx, 1)
-  },
-  async fetchBeers (filter) {
-    //appStore.isLoading = true
-    //appStore.beers = await api.fetchBeers(filter)
-    //appStore.isLoading = false
+  userName: localStorage.getItem('userName') || 'anonymous',
+  userColor: localStorage.getItem('userColor') || '',
+  setUserName(name){
+    appStore.userName = name;
+    localStorage.setItem('userName',appStore.userName);
   }
 })
 

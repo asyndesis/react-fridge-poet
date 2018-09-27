@@ -8,6 +8,9 @@ class Rooms extends React.Component{
     constructor(props){
         super(props);
 
+        this.state = {
+            hasRooms: false
+        }
         this.socket = Socket;
 
         this.socket.on('RECEIVE_ROOMS', function(data){
@@ -16,7 +19,7 @@ class Rooms extends React.Component{
 
         const populateRooms = data => {
             appStore.rooms = data;
-            !this.isCancelled && this.forceUpdate();
+            !this.isCancelled && this.setState({hasRooms:true});
         };
 
         this.socket.emit('JOIN_LOBBY');
@@ -32,7 +35,7 @@ class Rooms extends React.Component{
                 <div className="card-body">
                     <div className="card-title">Rooms List</div>
                     <hr/>
-                    <div style={{display: (appStore.rooms.length > 0 ? 'none' : 'flex')}} className="loading">
+                    <div style={{display: (this.state.hasRooms ? 'none' : 'flex')}} className="loading">
                         <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
                     </div>
                     <div className="rooms list-group">
@@ -41,7 +44,7 @@ class Rooms extends React.Component{
                                 <Link key={room.id} to={`/room/${room.id}`} className="list-group-item list-group-item-action">
                                     <div className="d-flex w-100 justify-content-between">
                                         <h5 className="mb-1">{room.name}</h5>
-                                        <small>{room.users} users</small>
+                                        <small>{room.users.length} users</small>
                                     </div>
                                 </Link>
                             )

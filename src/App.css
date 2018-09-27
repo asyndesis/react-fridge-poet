@@ -50,6 +50,14 @@ body {
 #fridge.dragging .magnet-placeholder{
   display:block;
 }
+.chat{
+  z-index:10;
+  position:absolute;
+  top:0;
+  left:0;
+}
+
+
 
 .loading{
   display: flex;

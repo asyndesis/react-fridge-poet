@@ -1,6 +1,9 @@
 import React from "react";
 import Magnet from "./Magnet";
+import Chat from "./Chat";
 import {Socket} from "./Socket";
+import { view } from 'react-easy-state';
+import appStore from './appStore';
 
 class Fridge extends React.Component{
     constructor(props){
@@ -20,7 +23,8 @@ class Fridge extends React.Component{
         this.room = props.match.params.room;
 
         this.socket.emit('JOIN_ROOM', {
-            room_id: this.room
+            room_id: this.room,
+            userName: appStore.userName
         });
 
         this.socket.on('POPULATE_MAGNETS', function(data){
@@ -82,31 +86,35 @@ class Fridge extends React.Component{
     }
     render(){
         return (
-            <div id="fridge" 
-            onMouseUp={this.onStopDrag}
-            onMouseMove={this.onDrag}
-            onTouchMove={this.onDrag}
-            onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
-                <div className="magnet-placeholder" style={{left:this.state.currentX,top:this.state.currentY}}>{this.state.currentMagnet.word}</div>
-                {this.state.magnets.map(magnet => {
-                    return (
-                        <Magnet draggable x={magnet.x}
-                                y={magnet.y}
-                                key={magnet.id}
-                                onTouchStart={e => this.onStartDrag(e,magnet)}
-                                onMouseDown={e => this.onStartDrag(e,magnet)}
-                                onMouseUp={this.onStopDrag}
-                                onTouchEnd={this.onStopDrag}
-                                selected={(this.state.currentMagnet.id === magnet.id ? true : false)}
-                                >
-                                {magnet.word}
+            <div>
+                <Chat/>
+                <div id="fridge" 
+                onMouseUp={this.onStopDrag}
+                onMouseMove={this.onDrag}
+                onTouchMove={this.onDrag}
+                onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
+                    <div className="magnet-placeholder" style={{left:this.state.currentX,top:this.state.currentY}}>{this.state.currentMagnet.word}</div>
+                    {this.state.magnets.map(magnet => {
+                        return (
+                            <Magnet draggable x={magnet.x}
+                                    y={magnet.y}
+                                    key={magnet.id}
+                                    onTouchStart={e => this.onStartDrag(e,magnet)}
+                                    onMouseDown={e => this.onStartDrag(e,magnet)}
+                                    onMouseUp={this.onStopDrag}
+                                    onTouchEnd={this.onStopDrag}
+                                    selected={(this.state.currentMagnet.id === magnet.id ? true : false)}
+                                    >
+                                    {magnet.word}
 
-                                </Magnet>
-                    )
-                })}
+                                    </Magnet>
+                        )
+                    })}
+                </div>
             </div>
+            
         );
     }
 }
 
-export default Fridge;
+export default view(Fridge);

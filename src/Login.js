@@ -8,12 +8,12 @@ class Login extends Component {
     super(props);
 
     this.state = {
-        username: '',
+        userName: appStore.userName,
     };
 
     this.handleLogin = e => {
-        if (this.state.username.length > 1){
-            appStore.username = this.state.username;
+        if (this.state.userName.length > 1){
+            appStore.setUserName(this.state.userName);
         }else{
             e.preventDefault();
         }
@@ -30,7 +30,7 @@ class Login extends Component {
   
                 <div className="card-body">
                     <div className="form-group">
-                    <input type="text" placeholder="Username" value={this.state.username} onChange={e => this.setState({username: e.target.value})} className="form-control form-control-lg"/>
+                    <input type="text" placeholder="username" value={this.state.userName} onChange={e => this.setState({userName: e.target.value})} className="form-control form-control-lg"/>
                     </div>
                     <Link onClick={this.handleLogin} className="btn btn-lg btn-primary btn-block" to='/room'>Rooms List</Link>
                 </div>

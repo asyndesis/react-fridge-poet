@@ -16,12 +16,12 @@ console.log('index.js running');
 
 const spawnRooms = () => {
     let rooms = [
-        {id: 'basic1', name:'Basic Room 1', users:0, magnets: magnets.spawnMagnets('basic')},
-        {id: 'basic2', name:'Basic Room 2', users:0, magnets: magnets.spawnMagnets('basic')},
-        {id: 'poet', name:'Poet Room 1', users:0, magnets: magnets.spawnMagnets('poet')},
-        {id: 'poet2', name:'Poet Room 2', users:0, magnets: magnets.spawnMagnets('poet')},
-        {id: 'dbag', name:'D-Bag Room', users:0, magnets: magnets.spawnMagnets('dbag')},
-        {id: 'dong', name:'Dong Room', users:0, magnets: magnets.spawnMagnets('dong')},
+        {id: 'basic1', name:'Basic Room 1', users:[], magnets: magnets.spawnMagnets('basic')},
+        {id: 'basic2', name:'Basic Room 2', users:[], magnets: magnets.spawnMagnets('basic')},
+        {id: 'poet', name:'Poet Room 1', users:[], magnets: magnets.spawnMagnets('poet')},
+        {id: 'poet2', name:'Poet Room 2', users:[], magnets: magnets.spawnMagnets('poet')},
+        {id: 'dbag', name:'D-Bag Room', users:[], magnets: magnets.spawnMagnets('dbag')},
+        {id: 'dong', name:'Dong Room', users:[], magnets: magnets.spawnMagnets('dong')},
     ];
     return rooms;
 }
@@ -36,18 +36,18 @@ const getSocketRoom = socket => {
     });
     return theRoom;
 }
-const updateRoomUsers = () => {
-    rooms.forEach(function(r){
-        let room = io.sockets.adapter.rooms[r.id];
-        if (!room){
-            r.users = 0;
-        }else{
-            r.users = io.sockets.adapter.rooms[r.id].length;
-        }
-    });
-}
+
 const socketLeaveAllRooms = socket => {
-    let socketRooms = Object.keys( io.sockets.adapter.sids[socket.id] );
+    let socketRooms = [];
+    if (io.sockets.adapter.sids[socket.id]){
+        socketRooms = Object.keys( io.sockets.adapter.sids[socket.id] );
+    }
+    rooms.forEach(function(room){
+        room.users = room.users.filter(function (user) {
+            return user.id !== socket.id;
+        });
+    });
+
     socketRooms.forEach(function(r){
         if (r !== socket.id){
             let room = rooms.find(rr => rr.id === r);
@@ -65,16 +65,15 @@ io.on('connection', (socket) => {
         if (room == undefined){
             return false;
         }
-        room.users++;
         socketLeaveAllRooms(socket);
-        updateRoomUsers();
         socket.join(data.room_id);
+        room.users.push({id:socket.id,name:data.userName});
         socket.emit('POPULATE_MAGNETS', room.magnets);
+        io.to(room.id).emit('USER_JOINED', room.users);
     });
 
     socket.on('JOIN_LOBBY',function(data){
         socketLeaveAllRooms(socket);
-        updateRoomUsers();
         socket.emit('RECEIVE_ROOMS', rooms);
     });
 
@@ -96,7 +95,7 @@ io.on('connection', (socket) => {
   
     });
     socket.on('disconnect', function () {
-        updateRoomUsers();
+        socketLeaveAllRooms(socket);
     });
 
 });
