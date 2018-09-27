@@ -1,36 +1,36 @@
 import React, { Component } from 'react';
 import { view } from 'react-easy-state';
 import appStore from './appStore';
-import {Socket} from "./Socket";
+import { Socket } from "./Socket";
 
 class Chat extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
-        users: [],
+      users: [],
     };
 
     this.socket = Socket;
-    this.socket.on('USER_JOINED', function(data){
-        populateUsers(data);
+    this.socket.on('USER_JOINED', function (data) {
+      populateUsers(data);
     });
 
     const populateUsers = data => {
-        !this.isCancelled && this.setState({users: data});
+      !this.isCancelled && this.setState({ users: data });
     };
   }
   render() {
     return (
-        <div className="pop-button">
-            <div className="chat">
-                {this.state.users.map(user => {
-                    return (
-                        <div key={user.id}>{user.name}</div>
-                    )
-                })}
-            </div>
+      <div className="pop-button">
+        <div className="chat">
+          {this.state.users.map(user => {
+            return (
+              <div key={user.id}>{user.name}</div>
+            )
+          })}
         </div>
+      </div>
     );
   }
 }
