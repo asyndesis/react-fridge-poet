@@ -62,7 +62,7 @@ class Fridge extends React.Component{
         this.onDrag = e => {
             let theX;
             let theY;
-            let doc = document.documentElement;
+            let doc = document.getElementById('root');
             let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
             let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
             if (e.nativeEvent.touches){
@@ -86,8 +86,8 @@ class Fridge extends React.Component{
     }
     render(){
         return (
-            <div>
-                <Chat/>
+
+                
                 <div id="fridge" 
                 onMouseUp={this.onStopDrag}
                 onMouseMove={this.onDrag}
@@ -111,7 +111,7 @@ class Fridge extends React.Component{
                         )
                     })}
                 </div>
-            </div>
+
             
         );
     }

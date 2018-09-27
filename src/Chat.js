@@ -22,14 +22,15 @@ class Chat extends Component {
   }
   render() {
     return (
-        <div className="chat">
-            {this.state.users.map(user => {
-                return (
-                    <div key={user.id}>{user.name}</div>
-                )
-            })}
+        <div className="pop-button">
+            <div className="chat">
+                {this.state.users.map(user => {
+                    return (
+                        <div key={user.id}>{user.name}</div>
+                    )
+                })}
+            </div>
         </div>
-
     );
   }
 }
