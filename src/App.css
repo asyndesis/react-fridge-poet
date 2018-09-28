@@ -5,15 +5,7 @@
   position:relative;
   overflow:hidden;
 }
-body {
-    overflow:hidden;
-}
-#root{
-  width:100vw;
-  height:100vh;
-  overflow:scroll;
-  position:relative;
-}
+
 ::-webkit-scrollbar { 
   
 }

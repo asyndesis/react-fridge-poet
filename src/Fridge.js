@@ -63,7 +63,7 @@ class Fridge extends React.Component {
     this.onDrag = e => {
       let theX;
       let theY;
-      let doc = document.getElementById('root');
+      let doc = document.documentElement;
       let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
       let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
       if (e.nativeEvent.touches) {
@@ -92,7 +92,7 @@ class Fridge extends React.Component {
         onMouseMove={this.onDrag}
         onTouchMove={this.onDrag}
         onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
-        
+        <Chat/>
         <div className="magnet-placeholder" style={{ left: this.state.currentX, top: this.state.currentY }}>{this.state.currentMagnet.word}</div>
         {this.state.magnets.map(magnet => {
           return (
