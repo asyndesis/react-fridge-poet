@@ -27,9 +27,7 @@ class Chat extends Component {
 
     const addMessage = data => {
       !this.isCancelled && this.setState({ messages: [...this.state.messages, data ] });
-      if (this.state.isScrolling){
-        this.refs.messageList.scrollTop = this.refs.messageList.scrollHeight - this.refs.messageList.clientHeight;
-      }
+
       if (!this.state.chatOpen){
         this.setState(prevState => {
           return {unread: prevState.unread + 1}
@@ -37,13 +35,22 @@ class Chat extends Component {
       }
     };
 
+
     const populateUsers = data => {
       !this.isCancelled && this.setState({ users: data });
     };
 
+    this.scrollBottom = () => {
+      if (this.state.isScrolling){
+        this.refs.messageList.scrollTop = (this.refs.messageList.scrollHeight || 0) - this.refs.messageList.clientHeight;
+      }
+    }
+
     this.toggleChat = e => {
       !this.isCancelled && this.setState({chatOpen: (this.state.chatOpen ? false : true)});
-      this.setState({unread:0});
+      if (this.state.chatOpen){
+        this.setState({unread:0,isScrolling:true});
+      }
     };
 
     this.handleKeyPress = e => {
@@ -68,6 +75,12 @@ class Chat extends Component {
   componentWillUnmount() {
     this.isCancelled = true;
   }
+  componentDidUpdate(){
+    if (this.state.chatOpen){
+      this.refs.chatText.focus();
+    }
+    this.scrollBottom();
+  }
   render() {
     return (
       <div className={"pop-button " + (this.state.chatOpen ? 'open' : '')} >
@@ -77,7 +90,7 @@ class Chat extends Component {
         </div>
         <div className="pop-button-action">
           <div className="pop-button-panel">
-            <div className="chat-panel" onScroll={this.handleScroll} ref="messageList">
+            <div className="chat-messages" onScroll={this.handleScroll} ref="messageList">
               {this.state.messages.map((m,i) => {
                 return (
                   <div key={i} className="chat-message">
@@ -88,7 +101,7 @@ class Chat extends Component {
               })}
             </div>
             <div>
-            <input type="text" placeholder="..." onKeyPress={this.handleKeyPress} value={this.state.message} onChange={e => this.setState({ message: e.target.value })} className="form-control form-control-lg" />
+            <input id="chat-text" ref="chatText" type="text" placeholder="..." onKeyPress={this.handleKeyPress} value={this.state.message} onChange={e => this.setState({ message: e.target.value })} className="form-control form-control-lg" />
             </div>
           </div>
         </div>
