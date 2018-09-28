@@ -24,7 +24,8 @@ class Fridge extends React.Component {
 
     this.socket.emit('JOIN_ROOM', {
       room_id: this.room,
-      userName: appStore.userName
+      userName: appStore.userName,
+      userColor: appStore.userColor
     });
 
     this.socket.on('POPULATE_MAGNETS', function (data) {
@@ -91,6 +92,7 @@ class Fridge extends React.Component {
         onMouseMove={this.onDrag}
         onTouchMove={this.onDrag}
         onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
+        <Chat/>
         <div className="magnet-placeholder" style={{ left: this.state.currentX, top: this.state.currentY }}>{this.state.currentMagnet.word}</div>
         {this.state.magnets.map(magnet => {
           return (

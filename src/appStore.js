@@ -5,10 +5,14 @@ import { store } from 'react-easy-state'
 const appStore = store({
   rooms: [],
   userName: localStorage.getItem('userName') || 'anonymous',
-  userColor: localStorage.getItem('userColor') || '',
+  userColor: localStorage.getItem('userColor') || 'gray',
   setUserName(name){
     appStore.userName = name;
     localStorage.setItem('userName',appStore.userName);
+  },
+  setUserColor(color){
+    appStore.userColor = color;
+    localStorage.setItem('userColor',appStore.userColor);
   }
 })
 

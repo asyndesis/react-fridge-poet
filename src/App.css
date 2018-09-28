@@ -12,6 +12,10 @@ body {
   width:100vw;
   height:100vh;
   overflow:scroll;
+  position:relative;
+}
+::-webkit-scrollbar { 
+  
 }
 .magnet{
   background:#FFF;
@@ -46,6 +50,7 @@ body {
 .pad-top{
   padding:40px;
 }
+#fridge.dragging .pop-button,
 #fridge.dragging .magnet{
   pointer-events: none;
 }
@@ -59,13 +64,98 @@ body {
   left:0;
 }
 .pop-button{
-  width:100px;
-  height:100px;
-  background:#EEE;
-  border:1px solid #DDD;
   position:fixed;
+  z-index:1000;
+  top:10px;
+  right:25px;
 }
+.pop-button-icon:hover {
+  box-shadow:0px 0px 0px 2px rgb(31, 210, 255);
+  opacity:1;
+}
+.pop-button.open .pop-button-icon{
+  border-color:#888;
+  opacity:1;
+}
+.pop-button.open .pop-button-action{
+  display:block;
+}
+.pop-button-icon{
+  box-shadow:0px 0px 0px 0px rgb(31, 210, 255);
+  transition:.2s ease all;
+  width:50px;
+  height:50px;
+  background:#FFF;
+  border:1px solid #AAA;
+  cursor:pointer;
 
+  text-align:center;
+  opacity:.8;
+  border-radius:50px;
+}
+.pop-button-icon i{
+  color:#888;
+  font-size:30px;
+  line-height:45px;
+}
+.pop-button-icon .badge{
+  position:absolute;
+  left:-3px;
+  top:-3px;
+}
+.pop-button-action{
+  padding-top:10px;
+  display:none;
+  position:relative;
+}
+.pop-button-panel{
+  padding:5px;
+  width:300px;
+  position:absolute;
+  right:0px;
+  background:#FFF;
+  border:1px solid #888;
+  border-radius:8px;
+}
+.chat-panel{
+  border:1px solid #ced4da;
+  margin-bottom:5px;
+  border-radius:5px;
+  height:100px;
+  overflow-y:scroll;
+}
+.chat-message{
+  padding:2px 5px;
+  font-size:12px;
+  border-bottom:1px solid #EEE;
+}
+.chat-message:last-child{
+  border:none;
+}
+.chat-user{
+  font-weight:bold;
+}
+.pop-button-panel:after, .pop-button-panel:before {
+	bottom: 100%;
+	right: 15px;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.pop-button-panel:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-bottom-color: #ffffff;
+	border-width: 10px;
+}
+.pop-button-panel:before {
+	border-color: rgba(0, 0, 0, 0);
+	border-bottom-color: #888;
+  border-width: 11px;
+  margin-right:-1px
+}
 
 .loading{
   display: flex;

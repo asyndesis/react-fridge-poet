@@ -9,11 +9,13 @@ class Login extends Component {
 
     this.state = {
       userName: appStore.userName,
+      userColor: appStore.userColor
     };
 
     this.handleLogin = e => {
-      if (this.state.userName.length > 1) {
+      if (this.state.userName.length > 1 && this.state.userColor.length > 1) {
         appStore.setUserName(this.state.userName);
+        appStore.setUserColor(this.state.userColor);
       } else {
         e.preventDefault();
       }
@@ -30,7 +32,12 @@ class Login extends Component {
 
           <div className="card-body">
             <div className="form-group">
-              <input type="text" placeholder="username" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value })} className="form-control form-control-lg" />
+              <label>Alias</label>
+              <input type="text" placeholder="Alias" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value })} className="form-control form-control-lg" />
+            </div>
+            <div className="form-group">
+              <label>Favorite Color</label>
+              <input type="text" placeholder="Favorite Color" value={this.state.userColor} onChange={e => this.setState({ userColor: e.target.value })} className="form-control form-control-lg" />
             </div>
             <Link onClick={this.handleLogin} className="btn btn-lg btn-primary btn-block" to='/room'>Rooms List</Link>
           </div>

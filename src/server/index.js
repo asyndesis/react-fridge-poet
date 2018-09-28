@@ -67,9 +67,23 @@ io.on('connection', (socket) => {
         }
         socketLeaveAllRooms(socket);
         socket.join(data.room_id);
-        room.users.push({id:socket.id,name:data.userName});
+        room.users.push({id:socket.id,name:data.userName,color:data.userColor});
         socket.emit('POPULATE_MAGNETS', room.magnets);
         io.to(room.id).emit('USER_JOINED', room.users);
+    });
+
+
+    socket.on('SEND_MESSAGE',function(data){
+        let room_id = getSocketRoom(socket);
+        let room = rooms.find(r => r.id === room_id);
+        let user = room.users.find(u => u.id === socket.id);
+        if (room == undefined){
+            return false;
+        }
+        if (user == undefined){
+            return false;
+        }
+        io.to(room.id).emit('RECIEVE_MESSAGE', {user:user,message:data.message});
     });
 
     socket.on('JOIN_LOBBY',function(data){
