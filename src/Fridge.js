@@ -92,7 +92,7 @@ class Fridge extends React.Component {
         onMouseMove={this.onDrag}
         onTouchMove={this.onDrag}
         onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
-        <Chat/>
+        
         <div className="magnet-placeholder" style={{ left: this.state.currentX, top: this.state.currentY }}>{this.state.currentMagnet.word}</div>
         {this.state.magnets.map(magnet => {
           return (
