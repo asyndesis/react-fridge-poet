@@ -11,6 +11,7 @@ class App extends Component {
     /* Ugly hack to disable pull down refresh */
     this.preventPullToRefresh = () => {
       document.addEventListener("touchmove", function(e){
+        
         if(e.target.classList[0] === 'magnet'){
           e.preventDefault(); 
         }
@@ -27,6 +28,7 @@ class App extends Component {
         <Route exact path='/room' component={Rooms}/>
         <Route path='/room/:room' component={Fridge}/>
       </Switch>
+      
     );
   }
 }
