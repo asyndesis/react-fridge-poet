@@ -1,3 +1,7 @@
+#fridge-wrapper{
+  position:relative;
+  
+}
 #fridge{
   background:#CCC;
   width:2000px;
@@ -6,10 +10,14 @@
   overflow:hidden;
 }
 html,body{
-  overscroll-behavior: none;
+
 }
-::-webkit-scrollbar { 
+body.android{
   
+}
+body.android #fridge-wrapper{
+  overflow:auto;
+  scroll-behavior: smooth;
 }
 .magnet{
   background:#FFF;
@@ -58,12 +66,12 @@ html,body{
   left:0;
 }
 .pop-panel{
+  -webkit-backface-visibility: hidden;
   position:fixed;
   width:100vw;
   bottom:10px;
   right:10px;
   z-index:1000;
-
 }
 .pop-button{
   float:right;

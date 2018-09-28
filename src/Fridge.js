@@ -12,6 +12,7 @@ class Fridge extends React.Component {
     this.state = {
       magnets: [],
       isDragging: false,
+      isAndroid:false,
       currentX: 0,
       currentY: 0,
       offsetX: 0,
@@ -63,7 +64,14 @@ class Fridge extends React.Component {
     this.onDrag = e => {
       let theX;
       let theY;
-      let doc = document.documentElement;
+      let doc;
+
+      if (this.state.isAndroid){
+        doc = this.refs.fridge;
+      }else{
+        doc = document.documentElement;
+      }
+
       let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
       let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
       if (e.nativeEvent.touches) {
@@ -82,38 +90,45 @@ class Fridge extends React.Component {
     }
 
   }
+  componentDidMount(){
+    if (navigator.userAgent.indexOf("Android") !== -1){
+      this.setState({isAndroid:true});
+      document.body.classList.add('android');
+    }
+  }
   componentWillUnmount() {
     this.isCancelled = true;
   }
   render() {
     return (
-      <div id="fridge"
-        onMouseUp={this.onStopDrag}
-        onMouseMove={this.onDrag}
-        onTouchMove={this.onDrag}
-        onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
-        <div className="pop-panel">
+      <div id="fridge-wrapper" ref="fridge">
+        <div className="pop-panel ">
           <Chat/>
         </div>
-        <div className="magnet-placeholder" style={{ left: this.state.currentX, top: this.state.currentY }}>{this.state.currentMagnet.word}</div>
-        {this.state.magnets.map(magnet => {
-          return (
-            <Magnet draggable x={magnet.x}
-              y={magnet.y}
-              key={magnet.id}
-              onTouchStart={e => this.onStartDrag(e, magnet)}
-              onMouseDown={e => this.onStartDrag(e, magnet)}
-              onMouseUp={this.onStopDrag}
-              onTouchEnd={this.onStopDrag}
-              selected={(this.state.currentMagnet.id === magnet.id ? true : false)}
-            >
-              {magnet.word}
+        <div id="fridge"
+          onMouseUp={this.onStopDrag}
+          onMouseMove={this.onDrag}
+          onTouchMove={this.onDrag}
+          onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
+          <div className="magnet-placeholder" style={{ left: this.state.currentX, top: this.state.currentY }}>{this.state.currentMagnet.word}</div>
+          {this.state.magnets.map(magnet => {
+            return (
+              <Magnet draggable x={magnet.x}
+                y={magnet.y}
+                key={magnet.id}
+                onTouchStart={e => this.onStartDrag(e, magnet)}
+                onMouseDown={e => this.onStartDrag(e, magnet)}
+                onMouseUp={this.onStopDrag}
+                onTouchEnd={this.onStopDrag}
+                selected={(this.state.currentMagnet.id === magnet.id ? true : false)}
+              >
+                {magnet.word}
 
-            </Magnet>
-          )
-        })}
+              </Magnet>
+            )
+          })}
+        </div>
       </div>
-
     );
   }
 }
