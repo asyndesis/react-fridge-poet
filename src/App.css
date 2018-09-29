@@ -27,6 +27,7 @@ body.android #fridge-wrapper{
   border:1px solid #CCC;
   transition:.3s ease all;
   cursor:move;
+  font-size:1em;
 }
 .magnet-placeholder{
   background:#FFF;
@@ -54,6 +55,7 @@ body.android #fridge-wrapper{
 }
 #fridge.dragging .pop-button,
 #fridge.dragging .magnet{
+  transition:none;
   pointer-events: none;
 }
 #fridge.dragging .magnet-placeholder{
@@ -66,15 +68,20 @@ body.android #fridge-wrapper{
   left:0;
 }
 .pop-panel{
-  -webkit-backface-visibility: hidden;
   position:fixed;
   width:100vw;
   bottom:10px;
-  right:10px;
+  right:0px;
   z-index:1000;
+  pointer-events: none;
+}
+.pop-panel-inside{
+  padding:10px;
 }
 .pop-button{
   float:right;
+  pointer-events: all;
+  margin-left:6px;
 }
 .pop-button-icon:hover {
   border-color:#888;
@@ -88,6 +95,8 @@ body.android #fridge-wrapper{
   display:block;
 }
 .pop-button-icon{
+  position:relative;
+  display:block;
   box-shadow:0px 0px 0px 0px rgb(31, 210, 255);
   transition:.2s ease all;
   width:50px;
@@ -95,7 +104,6 @@ body.android #fridge-wrapper{
   background:#FFF;
   border:1px solid #AAA;
   cursor:pointer;
-
   text-align:center;
   opacity:.8;
   border-radius:50px;
@@ -103,7 +111,7 @@ body.android #fridge-wrapper{
 .pop-button-icon i{
   color:#888;
   font-size:30px;
-  line-height:45px;
+  line-height:47px;
 }
 .pop-button-icon .badge{
   position:absolute;

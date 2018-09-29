@@ -38,7 +38,7 @@ class Rooms extends React.Component {
             <div style={{ display: (this.state.hasRooms ? 'none' : 'flex') }} className="loading">
               <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
-            <div className="rooms list-group">
+            <div style={{ display: (this.state.hasRooms ? 'block' : 'none') }} className="rooms list-group">
               {appStore.rooms.map(room => {
                 return (
                   <Link key={room.id} to={`/room/${room.id}`} className="list-group-item list-group-item-action">

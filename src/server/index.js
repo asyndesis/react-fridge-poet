@@ -28,7 +28,10 @@ const spawnRooms = () => {
 
 const getSocketRoom = socket => {
     let theRoom = undefined;
-    let socketRooms = Object.keys( io.sockets.adapter.sids[socket.id] );
+    let socketRooms = [];
+    if (io.sockets.adapter.sids[socket.id]){
+        socketRooms = Object.keys( io.sockets.adapter.sids[socket.id] );
+    }
     socketRooms.forEach(function(r){
         if (r !== socket.id){
             theRoom = r;

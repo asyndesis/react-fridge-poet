@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { view } from 'react-easy-state';
-import appStore from './appStore';
 import { Socket } from "./Socket";
 
 class Chat extends Component {
@@ -41,7 +40,7 @@ class Chat extends Component {
     };
 
     this.scrollBottom = () => {
-      if (this.state.isScrolling){
+      if (this.state.isScrolling && this.refs.messageList){
         this.refs.messageList.scrollTop = (this.refs.messageList.scrollHeight || 0) - this.refs.messageList.clientHeight;
       }
     }
@@ -62,10 +61,13 @@ class Chat extends Component {
     }
 
     this.handleScroll = e => {
-      let { refs, props } = this;
+      let {refs} = this;
+      if (!refs.messageList){
+        return;
+      }
       let scrollTop = refs.messageList.scrollTop;
       let maxScrollPosition = refs.messageList.scrollHeight - refs.messageList.clientHeight;
-      if (scrollTop == maxScrollPosition){
+      if (scrollTop === maxScrollPosition){
         !this.isCancelled && this.setState({ isScrolling: true });
       }else{
         !this.isCancelled && this.setState({ isScrolling: false });
@@ -86,25 +88,27 @@ class Chat extends Component {
       <div className={"pop-button " + (this.state.chatOpen ? 'open' : '')} >
         <div className="pop-button-icon" onClick={this.toggleChat}>
           <i className="fa fa-comment"></i>
-          <span style={{display:(this.state.unread == 0 ? 'none': 'block')}} className="badge badge-danger">{this.state.unread}</span>
+          <span style={{display:(this.state.unread === 0 ? 'none': 'block')}} className="badge badge-danger">{this.state.unread}</span>
         </div>
-        <div className="pop-button-action">
-          <div className="pop-button-panel">
-            <div className="chat-messages" onScroll={this.handleScroll} ref="messageList">
-              {this.state.messages.map((m,i) => {
-                return (
-                  <div key={i} className="chat-message">
-                    <span className="chat-user" style={{color:m.user.color}} >{m.user.name}: </span>
-                    <span> {m.message}</span>
-                  </div>
-                )
-              })}
-            </div>
-            <div>
-            <input id="chat-text" ref="chatText" type="text" placeholder="..." onKeyPress={this.handleKeyPress} value={this.state.message} onChange={e => this.setState({ message: e.target.value })} className="form-control form-control-lg" />
+        { this.state.chatOpen &&
+            <div className="pop-button-action">
+            <div className="pop-button-panel">
+              <div className="chat-messages" onScroll={this.handleScroll} ref="messageList">
+                {this.state.messages.map((m,i) => {
+                  return (
+                    <div key={i} className="chat-message">
+                      <span className="chat-user" style={{color:m.user.color}} >{m.user.name}: </span>
+                      <span> {m.message}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <div>
+              <input id="chat-text" ref="chatText" type="text" placeholder="..." onKeyPress={this.handleKeyPress} value={this.state.message} onChange={e => this.setState({ message: e.target.value })} className="form-control form-control-lg" />
+              </div>
             </div>
           </div>
-        </div>
+        }
       </div>
     );
   }
