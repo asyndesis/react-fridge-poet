@@ -21,6 +21,14 @@ class Rooms extends React.Component {
       populateRoomTypes(data);
     });
 
+    this.socket.on('ROOM_CREATED', function (data) {
+      navigateToRoom(data.room)
+    });
+
+    const navigateToRoom = room => {
+      this.props.history.push('/room/'+room);
+    }
+
     const populateRoomTypes = data => {
       appStore.roomTypes = data.roomTypes;
       !this.isCancelled && this.setState({ hasRoomOptions: true });

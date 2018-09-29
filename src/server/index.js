@@ -18,11 +18,7 @@ const roomTypes = magnets.getRoomTypes();
 
 const spawnRooms = () => {
     let rooms = [
-        {id: 'basic1', name:'Basic Room 1', users:[], magnets: magnets.spawnMagnets(['basic'])},
-        {id: 'poet', name:'Poet Room 1', users:[], magnets: magnets.spawnMagnets(['poet'])},
-        {id: 'dbag', name:'D-Bag Room', users:[], magnets: magnets.spawnMagnets(['dbag'])},
-        {id: 'dong', name:'Dong Room', users:[], magnets: magnets.spawnMagnets(['dong'])},
-        {id: 'all', name:'All Room', users:[], magnets: magnets.spawnMagnets(['dong','dbag','poet','basic'])},
+        {id: 'basic1', name:'Basic Room 1', users:[], magnets: magnets.spawnMagnets(['basic'])}
     ];
     return rooms;
 }
@@ -99,12 +95,15 @@ io.on('connection', (socket) => {
         let room = rooms.find(r => r.id === data.roomUrl);
         let rt = [];
         if (!data.checkedTypes){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please select some magnet types.'});
             return false;
         }
         if (Object.keys(data.checkedTypes).length === 0){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please select some magnet types.'});
             return false;
         }
         if (room !== undefined){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'That room name already exists.'});
             return false;
         }
         Object.keys(data.checkedTypes).forEach(function(key) {
@@ -113,10 +112,11 @@ io.on('connection', (socket) => {
             }
         });
         if (rt.length === 0){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please select some magnet types.'});
             return false;
         }
-        rooms.push({id: data.roomUrl, name:data.roomName, users:[], magnets: magnets.spawnMagnets(rt)});
-
+        rooms.unshift({id: data.roomUrl, name:data.roomName, users:[], magnets: magnets.spawnMagnets(rt)});
+        socket.emit('ROOM_CREATED', {room:data.roomUrl});
     });
 
     socket.on('JOIN_LOBBY',function(data){
