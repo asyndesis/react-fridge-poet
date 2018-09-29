@@ -33,9 +33,9 @@ class Rooms extends React.Component {
       <div className="container pad-top">
         <div className="card">
           <div className="card-header">
-            <button className="btn btn-success float-right"><i class="fa fa-plus"></i> Create Room</button>
-                <h4>Rooms List</h4>
-            </div>
+            <Link className="btn btn-success float-right" to="/create-room"><i className="fa fa-plus"></i> Create Room</Link>
+            <h4>Rooms List</h4>
+          </div>
           <div className="card-body">
             <div style={{ display: (this.state.hasRooms ? 'none' : 'flex') }} className="loading">
               <div className="lds-ring"><div></div><div></div><div></div><div></div></div>

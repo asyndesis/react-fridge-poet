@@ -6,6 +6,7 @@ const appStore = store({
   rooms: [],
   userName: localStorage.getItem('userName') || 'anonymous',
   userColor: localStorage.getItem('userColor') || 'gray',
+  roomTypes: [],
   setUserName(name){
     appStore.userName = name;
     localStorage.setItem('userName',appStore.userName);

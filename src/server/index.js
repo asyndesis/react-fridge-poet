@@ -14,14 +14,15 @@ app.get('*', (req, res) => {
 
 console.log('index.js running');
 
+const roomTypes = magnets.getRoomTypes();
+
 const spawnRooms = () => {
     let rooms = [
-        {id: 'basic1', name:'Basic Room 1', users:[], magnets: magnets.spawnMagnets('basic')},
-        {id: 'basic2', name:'Basic Room 2', users:[], magnets: magnets.spawnMagnets('basic')},
-        {id: 'poet', name:'Poet Room 1', users:[], magnets: magnets.spawnMagnets('poet')},
-        {id: 'poet2', name:'Poet Room 2', users:[], magnets: magnets.spawnMagnets('poet')},
-        {id: 'dbag', name:'D-Bag Room', users:[], magnets: magnets.spawnMagnets('dbag')},
-        {id: 'dong', name:'Dong Room', users:[], magnets: magnets.spawnMagnets('dong')},
+        {id: 'basic1', name:'Basic Room 1', users:[], magnets: magnets.spawnMagnets(['basic'])},
+        {id: 'poet', name:'Poet Room 1', users:[], magnets: magnets.spawnMagnets(['poet'])},
+        {id: 'dbag', name:'D-Bag Room', users:[], magnets: magnets.spawnMagnets(['dbag'])},
+        {id: 'dong', name:'Dong Room', users:[], magnets: magnets.spawnMagnets(['dong'])},
+        {id: 'all', name:'All Room', users:[], magnets: magnets.spawnMagnets(['dong','dbag','poet','basic'])},
     ];
     return rooms;
 }
@@ -87,6 +88,35 @@ io.on('connection', (socket) => {
             return false;
         }
         io.to(room.id).emit('RECIEVE_MESSAGE', {user:user,message:data.message});
+    });
+
+    socket.on('GET_ROOM_OPTIONS',function(data){
+        socketLeaveAllRooms(socket);
+        socket.emit('RECEIVE_ROOM_OPTIONS', {roomTypes:roomTypes});
+    });
+
+    socket.on('CREATE_ROOM',function(data){
+        let room = rooms.find(r => r.id === data.roomUrl);
+        let rt = [];
+        if (!data.checkedTypes){
+            return false;
+        }
+        if (Object.keys(data.checkedTypes).length === 0){
+            return false;
+        }
+        if (room !== undefined){
+            return false;
+        }
+        Object.keys(data.checkedTypes).forEach(function(key) {
+            if (data.checkedTypes[key]){
+                rt.push(key);
+            }
+        });
+        if (rt.length === 0){
+            return false;
+        }
+        rooms.push({id: data.roomUrl, name:data.roomName, users:[], magnets: magnets.spawnMagnets(rt)});
+
     });
 
     socket.on('JOIN_LOBBY',function(data){
