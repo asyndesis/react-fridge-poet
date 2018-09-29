@@ -49,6 +49,8 @@ class Chat extends Component {
       !this.isCancelled && this.setState({chatOpen: (this.state.chatOpen ? false : true)});
       if (this.state.chatOpen){
         this.setState({unread:0,isScrolling:true});
+      }else{
+        this.setState({isScrolling:false});
       }
     };
 

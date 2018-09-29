@@ -1,6 +1,7 @@
 import React from "react";
 import Magnet from "./Magnet";
 import Chat from "./Chat";
+import PopPanel from "./PopPanel";
 import PopButton from "./PopButton";
 import { Socket } from "./Socket";
 import { view } from 'react-easy-state';
@@ -103,13 +104,11 @@ class Fridge extends React.Component {
   render() {
     return (
       <div id="fridge-wrapper" ref="fridge">
-        <div className="pop-panel">
-          <div className="pop-panel-inside">
-            <Chat/>
-            <PopButton icon="fa fa-home" to="/room"/>
-            <PopButton icon="fa fa-cog" to="/"/>
-          </div>
-        </div>
+        <PopPanel>
+          <Chat/>
+          <PopButton icon="fa fa-home" to="/room"/>
+          <PopButton icon="fa fa-cog" to="/"/>
+        </PopPanel>
         <div id="fridge"
           onMouseUp={this.onStopDrag}
           onMouseMove={this.onDrag}

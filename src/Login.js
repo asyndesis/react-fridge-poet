@@ -20,6 +20,7 @@ class Login extends Component {
         e.preventDefault();
       }
     }
+
   }
   render() {
     return (
@@ -27,8 +28,8 @@ class Login extends Component {
       <div className="container pad-top">
         <div className="card">
           <div className="card-header">
-            Login
-        </div>
+            <h4>Fridge Poet</h4>
+          </div>
 
           <div className="card-body">
             <div className="form-group">
@@ -37,7 +38,14 @@ class Login extends Component {
             </div>
             <div className="form-group">
               <label>Favorite Color</label>
-              <input type="text" placeholder="Favorite Color" value={this.state.userColor} onChange={e => this.setState({ userColor: e.target.value })} className="form-control form-control-lg" />
+              <div className="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <div className="color-swatch" style={{backgroundColor:this.state.userColor}}></div>
+                  </span>
+                </div>
+                <input type="text" placeholder="Favorite Color" value={this.state.userColor} onChange={e => this.setState({ userColor: e.target.value })} className="form-control form-control-lg" />
+              </div>
             </div>
             <Link onClick={this.handleLogin} className="btn btn-lg btn-primary btn-block" to='/room'>Rooms List</Link>
           </div>

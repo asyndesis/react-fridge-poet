@@ -9,13 +9,13 @@ module.exports = (function() {
 };
 
     function spawnMagnets(listName) {
-        var numWords = 600;
+        var numWords = 400;
         let magnets = [];
         for (i = 0; i < numWords; i++){
             magnets.push({
                 word: getRandomWord(wordLists[listName]),
-                x: getRandomCoord(1960),
-                y: getRandomCoord(1960),
+                x: getRandomCoord(1760),
+                y: getRandomCoord(1160),
                 id: i
             })
         }

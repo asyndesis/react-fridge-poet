@@ -4,8 +4,8 @@
 }
 #fridge{
   background:#CCC;
-  width:2000px;
-  height:2000px;
+  width:1800px;
+  height:1200px;
   position:relative;
   overflow:hidden;
 }
@@ -49,6 +49,16 @@ body.android #fridge-wrapper{
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+.card-header h4{
+  margin:0;
+  padding:5px 0;
+}
+.color-swatch{
+  width:20px;
+  height:20px;
+  border-radius:20px;
+  background-color:gray;
 }
 .pad-top{
   padding:40px;
