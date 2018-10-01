@@ -66,23 +66,64 @@ class Fridge extends React.Component {
     this.onDrag = e => {
       let theX;
       let theY;
-      let doc;
+      let doc = document.documentElement;
+      let scrollLimit = 100;
 
       if (this.state.isAndroid){
         doc = this.refs.fridge;
-      }else{
-        doc = document.documentElement;
       }
 
       let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
       let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
       if (e.nativeEvent.touches) {
-        theX = e.nativeEvent.touches[0].clientX + left;
-        theY = e.nativeEvent.touches[0].clientY + top;
+        theX = e.nativeEvent.touches[0].clientX;
+        theY = e.nativeEvent.touches[0].clientY;
+        let theBody = document.body
+        if (this.state.isAndroid){
+          theBody = doc;
+        }
+        if (this.state.isDragging && this.state.currentMagnet !== -1) {
+          if (document.documentElement.clientWidth - theX < scrollLimit){
+            theBody.scrollLeft += scrollLimit - (document.documentElement.clientWidth - theX);
+          }
+          if (document.documentElement.clientHeight - theY < scrollLimit){
+            theBody.scrollTop += scrollLimit - (document.documentElement.clientHeight - theY);
+          }
+          if (theX < scrollLimit){
+            theBody.scrollLeft -= scrollLimit - theX;
+          }
+          if (theY < scrollLimit){
+            theBody.scrollTop -= scrollLimit - theY;
+          }
+        }
       } else {
-        theX = e.nativeEvent.layerX;
-        theY = e.nativeEvent.layerY;
+        theX = e.nativeEvent.clientX;
+        theY = e.nativeEvent.clientY;
+        if (this.state.isDragging && this.state.currentMagnet !== -1) {
+          if (window.innerWidth - theX < scrollLimit){
+            doc.scrollLeft += scrollLimit - (window.innerWidth - theX);
+          }
+          if (window.innerHeight - theY < scrollLimit){
+            doc.scrollTop += scrollLimit - (window.innerHeight - theY);
+          }
+          if (theX < scrollLimit){
+            doc.scrollLeft -= scrollLimit - theX;
+          }
+          if (theY < scrollLimit){
+            doc.scrollTop -= scrollLimit - theY;
+          }
+        }
       }
+
+
+
+      left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+      top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+      theX = theX + left;
+      theY = theY + top;
+
       if (this.state.isDragging && this.state.currentMagnet !== -1) {
         !this.isCancelled && this.setState({
           currentX: theX - this.state.offsetX,
