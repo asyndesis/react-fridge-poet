@@ -159,6 +159,7 @@ class Fridge extends React.Component {
           <PopButton icon="fa fa-cog" to="/"/>
         </PopPanel>
         <div id="fridge"
+          style={{  width:'2200px',height:'2200px'}}
           onMouseUp={this.onStopDrag}
           onMouseMove={this.onDrag}
           onTouchMove={this.onDrag}

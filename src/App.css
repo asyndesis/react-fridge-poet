@@ -4,8 +4,6 @@
 }
 #fridge{
   background:#CCC;
-  width:1800px;
-  height:1200px;
   position:relative;
   overflow:hidden;
 }

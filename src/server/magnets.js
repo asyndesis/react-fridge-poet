@@ -15,13 +15,13 @@ const wordLists = {
         return Object.keys(wordLists);
     }
     function spawnMagnets(roomArray) {
-        var numWords = 500;
+        var numWords = 800;
         let magnets = [];
         for (i = 0; i < numWords; i++){
             magnets.push({
                 word: getRandomWord(wordLists[getRandomRoom(roomArray)]),
-                x: getRandomCoord(1760),
-                y: getRandomCoord(1160),
+                x: getRandomCoord(2160),
+                y: getRandomCoord(2160),
                 id: i
             })
         }
