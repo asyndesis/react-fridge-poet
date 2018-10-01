@@ -106,6 +106,7 @@ class Fridge extends React.Component {
       } else {
         theX = e.nativeEvent.clientX;
         theY = e.nativeEvent.clientY;
+        if (this.state.isDragging && this.state.currentMagnet !== -1) {
           if (window.innerWidth - theX < (scrollLimit) &&
             fridgeWidth - (window.innerWidth + doc.scrollLeft) > 0){
             doc.scrollLeft += (scrollLimit) - (window.innerWidth - theX);
@@ -122,6 +123,7 @@ class Fridge extends React.Component {
              doc.scrollTop > 0){
             doc.scrollTop -= (scrollLimit) - theY;
           }
+        }
       }
 
       left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
@@ -151,11 +153,13 @@ class Fridge extends React.Component {
   render() {
     return (
       <div id="fridge-wrapper" ref="fridge">
+      { !this.state.isDragging &&
         <PopPanel>
           <Chat/>
           <PopButton icon="fa fa-home" to="/room"/>
           <PopButton icon="fa fa-cog" to="/"/>
         </PopPanel>
+      }
         <div id="fridge"
           onMouseUp={this.onStopDrag}
           onMouseMove={this.onDrag}

@@ -7,6 +7,8 @@ const appStore = store({
   userName: localStorage.getItem('userName') || 'anonymous',
   userColor: localStorage.getItem('userColor') || 'gray',
   roomTypes: [],
+  messages: [],
+  unread: 0,
   setUserName(name){
     appStore.userName = name;
     localStorage.setItem('userName',appStore.userName);

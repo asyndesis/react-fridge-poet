@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { view } from 'react-easy-state';
+import appStore from './appStore';
 import { Socket } from "./Socket";
 
 class Chat extends Component {
@@ -8,10 +9,10 @@ class Chat extends Component {
 
     this.state = {
       users: [],
-      messages: [],
+      messages: appStore.messages,
       message:'',
       chatOpen:false,
-      unread:0,
+      unread:appStore.unread,
       isScrolling:true
     };
 
@@ -26,11 +27,12 @@ class Chat extends Component {
 
     const addMessage = data => {
       !this.isCancelled && this.setState({ messages: [...this.state.messages, data ] });
-
+      appStore.messages = [...this.state.messages, data ];
       if (!this.state.chatOpen){
         this.setState(prevState => {
           return {unread: prevState.unread + 1}
         });
+        appStore.unread = this.state.unread;
       }
     };
 
@@ -48,9 +50,10 @@ class Chat extends Component {
     this.toggleChat = e => {
       !this.isCancelled && this.setState({chatOpen: (this.state.chatOpen ? false : true)});
       if (this.state.chatOpen){
-        this.setState({unread:0,isScrolling:true});
+        this.setState({isScrolling:true});
       }else{
-        this.setState({isScrolling:false});
+        this.setState({unread:0});
+        appStore.unread = 0;
       }
     };
 
@@ -75,6 +78,9 @@ class Chat extends Component {
         !this.isCancelled && this.setState({ isScrolling: false });
       }
     }
+  }
+  componentDidMount(){
+    console.log('mounted');
   }
   componentWillUnmount() {
     this.isCancelled = true;
