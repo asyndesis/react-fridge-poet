@@ -41,7 +41,10 @@ class Rooms extends React.Component {
     });
 
     this.changeRoomName = e =>{
-      let roomUrl = e.target.value.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase();
+      let roomUrl = e.target.value.replace(/[^\w\s]/gi, '').replace(/\s+/g, '-').toLowerCase().replace(/^-/, '');
+      if(roomUrl[roomUrl.length-1] === "-") {
+        roomUrl = roomUrl.substring(0, roomUrl.length-1);
+      }
       this.refs.roomName.value = e.target.value;
       this.refs.roomUrl.value = roomUrl;
       this.setState({
