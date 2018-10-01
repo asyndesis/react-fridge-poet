@@ -94,6 +94,10 @@ io.on('connection', (socket) => {
     socket.on('CREATE_ROOM',function(data){
         let room = rooms.find(r => r.id === data.roomUrl);
         let rt = [];
+        if (data.roomUrl === '-' || data.roomUrl === '' || data.roomUrl === ' '){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please enter a valid room name.'});
+            return false;
+        }
         if (!data.checkedTypes){
             socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please select some magnet types.'});
             return false;

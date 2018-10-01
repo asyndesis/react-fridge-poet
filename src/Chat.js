@@ -98,25 +98,23 @@ class Chat extends Component {
           <i className="fa fa-comment"></i>
           <span style={{display:(this.state.unread === 0 ? 'none': 'block')}} className="badge badge-danger">{this.state.unread}</span>
         </div>
-        { this.state.chatOpen &&
-            <div className="pop-button-action">
-            <div className="pop-button-panel">
-              <div className="chat-messages" onScroll={this.handleScroll} ref="messageList">
-                {this.state.messages.map((m,i) => {
-                  return (
-                    <div key={i} className="chat-message">
-                      <span className="chat-user" style={{color:m.user.color}} >{m.user.name}: </span>
-                      <span> {m.message}</span>
-                    </div>
-                  )
-                })}
-              </div>
-              <div>
-              <input id="chat-text" ref="chatText" type="text" placeholder="..." onKeyPress={this.handleKeyPress} value={this.state.message} onChange={e => this.setState({ message: e.target.value })} className="form-control form-control-lg" />
-              </div>
+          <div className="pop-button-action">
+          <div className="pop-button-panel">
+            <div className="chat-messages" onScroll={this.handleScroll} ref="messageList">
+              {this.state.messages.map((m,i) => {
+                return (
+                  <div key={i} className="chat-message">
+                    <span className="chat-user" style={{color:m.user.color}} >{m.user.name}: </span>
+                    <span> {m.message}</span>
+                  </div>
+                )
+              })}
+            </div>
+            <div>
+            <input id="chat-text" ref="chatText" type="text" placeholder="..." onKeyPress={this.handleKeyPress} value={this.state.message} onChange={e => this.setState({ message: e.target.value })} className="form-control form-control-lg" />
             </div>
           </div>
-        }
+        </div>
       </div>
     );
   }

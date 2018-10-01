@@ -153,13 +153,11 @@ class Fridge extends React.Component {
   render() {
     return (
       <div id="fridge-wrapper" ref="fridge">
-      { !this.state.isDragging &&
         <PopPanel>
           <Chat/>
           <PopButton icon="fa fa-home" to="/room"/>
           <PopButton icon="fa fa-cog" to="/"/>
         </PopPanel>
-      }
         <div id="fridge"
           onMouseUp={this.onStopDrag}
           onMouseMove={this.onDrag}
