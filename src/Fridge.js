@@ -66,6 +66,8 @@ class Fridge extends React.Component {
     this.onDrag = e => {
       let theX;
       let theY;
+      let fridgeWidth = document.getElementById('fridge').clientWidth;
+      let fridgeHeight = document.getElementById('fridge').clientHeight;
       let doc = document.documentElement;
       let scrollLimit = 100;
 
@@ -84,39 +86,43 @@ class Fridge extends React.Component {
           theBody = doc;
         }
         if (this.state.isDragging && this.state.currentMagnet !== -1) {
-          if (document.documentElement.clientWidth - theX < scrollLimit){
+          if (document.documentElement.clientWidth - theX < scrollLimit &&
+              fridgeWidth - (document.documentElement.clientWidth + theBody.scrollLeft) > 0 ){
             theBody.scrollLeft += scrollLimit - (document.documentElement.clientWidth - theX);
           }
-          if (document.documentElement.clientHeight - theY < scrollLimit){
+          if (document.documentElement.clientHeight - theY < scrollLimit &&
+              fridgeHeight - (document.documentElement.clientHeight + theBody.scrollTop) > 0){
             theBody.scrollTop += scrollLimit - (document.documentElement.clientHeight - theY);
           }
-          if (theX < scrollLimit){
+          if (theX < scrollLimit &&
+            theBody.scrollLeft > 0){
             theBody.scrollLeft -= scrollLimit - theX;
           }
-          if (theY < scrollLimit){
+          if (theY < scrollLimit  &&
+            theBody.scrollTop > 0){
             theBody.scrollTop -= scrollLimit - theY;
           }
         }
       } else {
         theX = e.nativeEvent.clientX;
         theY = e.nativeEvent.clientY;
-        if (this.state.isDragging && this.state.currentMagnet !== -1) {
-          if (window.innerWidth - theX < scrollLimit){
-            doc.scrollLeft += scrollLimit - (window.innerWidth - theX);
+          if (window.innerWidth - theX < (scrollLimit) &&
+            fridgeWidth - (window.innerWidth + doc.scrollLeft) > 0){
+            doc.scrollLeft += (scrollLimit) - (window.innerWidth - theX);
           }
-          if (window.innerHeight - theY < scrollLimit){
-            doc.scrollTop += scrollLimit - (window.innerHeight - theY);
+          if (window.innerHeight - theY < (scrollLimit) &&
+            fridgeHeight - (window.innerHeight + doc.scrollTop) > 0){
+            doc.scrollTop += (scrollLimit) - (window.innerHeight - theY);
           }
-          if (theX < scrollLimit){
-            doc.scrollLeft -= scrollLimit - theX;
+          if (theX < (scrollLimit) &&
+              doc.scrollLeft > 0){
+            doc.scrollLeft -= (scrollLimit) - theX;
           }
-          if (theY < scrollLimit){
-            doc.scrollTop -= scrollLimit - theY;
+          if (theY < (scrollLimit) &&
+             doc.scrollTop > 0){
+            doc.scrollTop -= (scrollLimit) - theY;
           }
-        }
       }
-
-
 
       left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
       top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
