@@ -62,14 +62,15 @@ io.on('connection', (socket) => {
 
     socket.on('JOIN_ROOM', function(data){
         let room = rooms.find(r => r.id === data.room_id);
+        let user = {id:socket.id,name:data.userName,color:data.userColor};
         if (room == undefined){
             return false;
         }
         socketLeaveAllRooms(socket);
         socket.join(data.room_id);
-        room.users.push({id:socket.id,name:data.userName,color:data.userColor});
+        room.users.push(user);
         socket.emit('POPULATE_MAGNETS', room.magnets);
-        io.to(room.id).emit('USER_JOINED', room.users);
+        io.to(room.id).emit('USER_JOINED', {user: user});
     });
 
 

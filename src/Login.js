@@ -39,8 +39,8 @@ class Login extends Component {
             <div className="form-group">
               <label>Favorite Color</label>
               <div className="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon1">
                     <div className="color-swatch" style={{backgroundColor:this.state.userColor}}></div>
                   </span>
                 </div>

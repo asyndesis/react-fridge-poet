@@ -25,11 +25,16 @@ class Fridge extends React.Component {
     this.socket = Socket;
     this.room = props.match.params.room;
 
+    appStore.unread = 0;
+    appStore.messages = [];
+
     this.socket.emit('JOIN_ROOM', {
       room_id: this.room,
       userName: appStore.userName,
       userColor: appStore.userColor
     });
+
+
 
     this.socket.on('POPULATE_MAGNETS', function (data) {
       populateMagnets(data);
@@ -153,7 +158,7 @@ class Fridge extends React.Component {
   render() {
     return (
       <div id="fridge-wrapper" ref="fridge">
-        <PopPanel>
+        <PopPanel active={(this.state.isDragging ? '' : 'active')} style={{opacity: (this.state.isDragging ? '.25' : '1')}}>
           <Chat/>
           <PopButton icon="fa fa-home" to="/room"/>
           <PopButton icon="fa fa-cog" to="/"/>

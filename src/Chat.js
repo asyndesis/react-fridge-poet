@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { view } from 'react-easy-state';
 import appStore from './appStore';
 import { Socket } from "./Socket";
+import PopButton from "./PopButton";
 
 class Chat extends Component {
   constructor(props) {
@@ -18,10 +19,12 @@ class Chat extends Component {
 
     this.socket = Socket;
     this.socket.on('USER_JOINED', function (data) {
-      populateUsers(data);
+      data.type = "joined";
+      addMessage(data);
     });
 
     this.socket.on('RECIEVE_MESSAGE', function (data) {
+      data.type = 'message';
       addMessage(data);
     });
 
@@ -29,16 +32,11 @@ class Chat extends Component {
       !this.isCancelled && this.setState({ messages: [...this.state.messages, data ] });
       appStore.messages = [...this.state.messages, data ];
       if (!this.state.chatOpen){
-        this.setState(prevState => {
+        !this.isCancelled && this.setState(prevState => {
           return {unread: prevState.unread + 1}
         });
         appStore.unread = this.state.unread;
       }
-    };
-
-
-    const populateUsers = data => {
-      !this.isCancelled && this.setState({ users: data });
     };
 
     this.scrollBottom = () => {
@@ -48,11 +46,12 @@ class Chat extends Component {
     }
 
     this.toggleChat = e => {
-      !this.isCancelled && this.setState({chatOpen: (this.state.chatOpen ? false : true)});
+      let open = (this.state.chatOpen ? false : true);
+      !this.isCancelled && this.setState({chatOpen: open});
       if (this.state.chatOpen){
-        this.setState({isScrolling:true});
+        !this.isCancelled && this.setState({isScrolling:true});
       }else{
-        this.setState({unread:0});
+        !this.isCancelled && this.setState({unread:0});
         appStore.unread = 0;
       }
     };
@@ -80,7 +79,6 @@ class Chat extends Component {
     }
   }
   componentDidMount(){
-    console.log('mounted');
   }
   componentWillUnmount() {
     this.isCancelled = true;
@@ -93,29 +91,34 @@ class Chat extends Component {
   }
   render() {
     return (
-      <div className={"pop-button " + (this.state.chatOpen ? 'open' : '')} >
-        <div className="pop-button-icon" onClick={this.toggleChat}>
-          <i className="fa fa-comment"></i>
-          <span style={{display:(this.state.unread === 0 ? 'none': 'block')}} className="badge badge-danger">{this.state.unread}</span>
-        </div>
-          <div className="pop-button-action">
+      <PopButton icon="fa fa-comment" 
+                className={"pop-button " + (this.state.chatOpen ? 'open' : '')}
+                alerts={this.state.unread}
+                onClick={this.toggleChat}
+                >
           <div className="pop-button-panel">
             <div className="chat-messages" onScroll={this.handleScroll} ref="messageList">
               {this.state.messages.map((m,i) => {
+                if (m.type === 'message')  {
                 return (
                   <div key={i} className="chat-message">
                     <span className="chat-user" style={{color:m.user.color}} >{m.user.name}: </span>
                     <span> {m.message}</span>
                   </div>
-                )
+                )}else{
+                  return(
+                    <div key={i} className="chat-message">
+                      <span className="chat-user" style={{color:m.user.color}} >[{m.user.name} has joined.] </span>
+                    </div>
+                  )
+                }
               })}
             </div>
             <div>
             <input id="chat-text" ref="chatText" type="text" placeholder="..." onKeyPress={this.handleKeyPress} value={this.state.message} onChange={e => this.setState({ message: e.target.value })} className="form-control form-control-lg" />
             </div>
           </div>
-        </div>
-      </div>
+      </PopButton>
     );
   }
 }

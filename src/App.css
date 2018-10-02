@@ -76,6 +76,7 @@ body.android #fridge-wrapper{
   left:0;
 }
 .pop-panel{
+  transition:.2s ease opacity;
   position:fixed;
   width:100vw;
   bottom:10px;
@@ -90,6 +91,10 @@ body.android #fridge-wrapper{
   float:right;
   pointer-events: all;
   margin-left:6px;
+  pointer-events: none;
+}
+.pop-panel.active .pop-button{
+  pointer-events: all;
 }
 .pop-button-icon:hover {
   border-color:#888;
