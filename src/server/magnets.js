@@ -25,6 +25,7 @@ const wordLists = {
                 word: getRandomWord(wordLists[getRandomRoom(roomArray)]),
                 x: getRandomCoord(2160),
                 y: getRandomCoord(2160),
+                z:0,
                 id: i
             })
         }

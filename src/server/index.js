@@ -57,6 +57,12 @@ const socketLeaveAllRooms = socket => {
     });
 }
 
+function highestMagnet(m) {
+    return m.reduce(function(previous, entry) {
+        return previous === undefined || entry.z > previous ? entry.z : previous;
+    }, undefined);
+}
+
 var rooms = spawnRooms();
 
 io.on('connection', (socket) => {
@@ -141,9 +147,10 @@ io.on('connection', (socket) => {
             return false;
         }
         let magnet = room.magnets.find(r => r.id === data.magnet_id);
+        magnet.z = highestMagnet(room.magnets)+1;
         magnet.x = data.x;
         magnet.y = data.y;
-
+        
         io.to(room.id).emit('POPULATE_MAGNETS', room.magnets);
   
     });

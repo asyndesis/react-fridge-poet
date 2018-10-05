@@ -172,17 +172,18 @@ class Fridge extends React.Component {
           <div className="magnet-placeholder" style={{ left: this.state.currentX, top: this.state.currentY }}>{this.state.currentMagnet.word}</div>
           {this.state.magnets.map(magnet => {
             return (
-              <Magnet draggable x={magnet.x}
+              <Magnet
+                draggable
+                x={magnet.x}
                 y={magnet.y}
+                z={magnet.z}
                 key={magnet.id}
                 onTouchStart={e => this.onStartDrag(e, magnet)}
                 onMouseDown={e => this.onStartDrag(e, magnet)}
                 onMouseUp={this.onStopDrag}
                 onTouchEnd={this.onStopDrag}
-                selected={(this.state.currentMagnet.id === magnet.id ? true : false)}
-              >
+                selected={(this.state.currentMagnet.id === magnet.id ? true : false)}>
                 {magnet.word}
-
               </Magnet>
             )
           })}
