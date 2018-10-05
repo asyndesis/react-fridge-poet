@@ -26,7 +26,7 @@ class Login extends Component {
     return (
 
       <div className="container pad-top">
-        <div className="card">
+        <div className="card text-white bg-dark" style={{maxWidth:'400px',margin:'0 auto'}}>
           <div className="card-header">
             <h4>Fridge Poet</h4>
           </div>

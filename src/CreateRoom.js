@@ -77,7 +77,7 @@ class Rooms extends React.Component {
   render() {
     return (
       <div className="container pad-top">
-        <div className="card">
+        <div className="card text-white bg-dark" style={{maxWidth:'600px',margin:'0 auto'}}>
           <div className="card-header">
               <Link className="btn btn-danger float-right" to="/room"><i className="fa fa-close"></i> Cancel</Link>
               <h4>Create Room</h4>
@@ -99,8 +99,8 @@ class Rooms extends React.Component {
                 <div className="list-group">
                   {appStore.roomTypes.map(roomType => {
                   return (
-                    <div className="list-group-item" key={roomType}>
-                        <span className="titlecase">{roomType}</span>
+                    <div className="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center" key={roomType}>
+                        <h5 className="titlecase mb-0">{roomType}</h5>
                         <CheckSwitch name={roomType} checked={this.state.checkedTypes.get(roomType)} onChange={this.handleCheck}/>
                     </div>
                   )

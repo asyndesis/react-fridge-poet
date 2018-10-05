@@ -18,7 +18,8 @@ const roomTypes = magnets.getRoomTypes();
 
 const spawnRooms = () => {
     let rooms = [
-        {id: 'basic1', name:'Basic Room 1', users:[], magnets: magnets.spawnMagnets(['basic'])}
+        {id: 'basic', name:'Basic Room', users:[], magnets: magnets.spawnMagnets(['basic'])},
+        {id: 'haiku', name:'Haiku Room', users:[], magnets: magnets.spawnMagnets(['haiku'])},
     ];
     return rooms;
 }

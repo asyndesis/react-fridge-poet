@@ -5,7 +5,6 @@ import CreateRoom from "./CreateRoom";
 import Fridge from "./Fridge";
 import Login from "./Login";
 import SweetAlert from 'sweetalert2-react';
-import "./App.css";
 import { Socket } from "./Socket";
 
 class App extends Component {

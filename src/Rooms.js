@@ -31,7 +31,7 @@ class Rooms extends React.Component {
   render() {
     return (
       <div className="container pad-top">
-        <div className="card">
+        <div className="card text-white bg-dark" style={{maxWidth:'600px',margin:'0 auto'}}>
           <div className="card-header">
             <Link className="btn btn-success float-right" to="/create-room"><i className="fa fa-plus"></i> Create Room</Link>
             <h4>Rooms List</h4>
@@ -40,17 +40,17 @@ class Rooms extends React.Component {
             <div style={{ display: (this.state.hasRooms ? 'none' : 'flex') }} className="loading">
               <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
-            <div style={{ display: (this.state.hasRooms ? 'block' : 'none') }} className="rooms list-group">
-              {appStore.rooms.map(room => {
-                return (
-                  <Link key={room.id} to={`/room/${room.id}`} className="list-group-item list-group-item-action">
-                    <div className="d-flex w-100 justify-content-between">
-                      <h5 className="mb-1">{room.name}</h5>
-                      <small>{room.users.length} users</small>
-                    </div>
-                  </Link>
-                )
-              })}
+            <div className="card">
+              <div style={{ display: (this.state.hasRooms ? 'block' : 'none') }} className="rooms list-group">
+                {appStore.rooms.map(room => {
+                  return (
+                    <Link key={room.id} to={`/room/${room.id}`} className="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">
+                      <h5 className="mb-0">{room.name}</h5>
+                      <span className="badge badge-pill badge-dark">{room.users.length} users</span>
+                    </Link>
+                  )
+                })}
+              </div>
             </div>
 
           </div>
