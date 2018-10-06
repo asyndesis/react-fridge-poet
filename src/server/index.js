@@ -69,7 +69,6 @@ function highestMagnet(m) {
 }
 
 var rooms = spawnRooms();
-var users = [];
 
 io.on('connection', (socket) => {
 
