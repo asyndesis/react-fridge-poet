@@ -9,7 +9,7 @@ class PopButton extends Component {
   }
   render() {
       return (
-        <div className={"pop-panel "+this.props.active} style={this.props.style}>
+        <div className={"pop-panel "+this.props.className} style={this.props.style}>
           <div className="pop-panel-inside">
             {this.props.children}
           </div>

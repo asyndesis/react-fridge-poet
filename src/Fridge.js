@@ -1,8 +1,5 @@
 import React from "react";
 import Magnet from "./Magnet";
-import Chat from "./Chat";
-import PopPanel from "./PopPanel";
-import PopButton from "./PopButton";
 import { Socket } from "./Socket";
 import { view } from 'react-easy-state';
 import appStore from './appStore';
@@ -14,7 +11,6 @@ class Fridge extends React.Component {
     this.state = {
       magnets: [],
       isDragging: false,
-      isAndroid:false,
       currentX: 0,
       currentY: 0,
       offsetX: 0,
@@ -76,10 +72,6 @@ class Fridge extends React.Component {
       let doc = document.documentElement;
       let scrollLimit = 100;
 
-      if (this.state.isAndroid){
-        doc = this.refs.fridge;
-      }
-
       let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
       let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
@@ -87,9 +79,6 @@ class Fridge extends React.Component {
         theX = e.nativeEvent.touches[0].clientX;
         theY = e.nativeEvent.touches[0].clientY;
         let theBody = document.body
-        if (this.state.isAndroid){
-          theBody = doc;
-        }
         if (this.state.isDragging && this.state.currentMagnet !== -1) {
           if (document.documentElement.clientWidth - theX < scrollLimit &&
               fridgeWidth - (document.documentElement.clientWidth + theBody.scrollLeft) > 0 ){
@@ -146,10 +135,11 @@ class Fridge extends React.Component {
     }
 
   }
-  componentDidMount(){
-    if (navigator.userAgent.indexOf("Android") !== -1){
-      this.setState({isAndroid:true});
-      document.body.classList.add('android');
+  componentDidUpdate(prevProps,prevState){
+    if (this.state.isDragging){
+      document.body.classList.add('is-dragging');
+    }else{
+      document.body.classList.remove('is-dragging');
     }
   }
   componentWillUnmount() {
@@ -158,17 +148,12 @@ class Fridge extends React.Component {
   render() {
     return (
       <div id="fridge-wrapper" ref="fridge">
-        <PopPanel active={(this.state.isDragging ? '' : 'active')} style={{opacity: (this.state.isDragging ? '.25' : '1')}}>
-          <Chat/>
-          <PopButton icon="fa fa-home" to="/room"/>
-          <PopButton icon="fa fa-cog" to="/"/>
-        </PopPanel>
         <div id="fridge"
           style={{  width:'2200px',height:'2200px'}}
           onMouseUp={this.onStopDrag}
           onMouseMove={this.onDrag}
           onTouchMove={this.onDrag}
-          onTouchEnd={this.onStopDrag} className={(this.state.isDragging ? 'dragging' : '')}>
+          onTouchEnd={this.onStopDrag}>
           <div className="magnet-placeholder" style={{ left: this.state.currentX, top: this.state.currentY }}>{this.state.currentMagnet.word}</div>
           {this.state.magnets.map(magnet => {
             return (

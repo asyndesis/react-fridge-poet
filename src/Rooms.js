@@ -22,7 +22,10 @@ class Rooms extends React.Component {
       !this.isCancelled && this.setState({ hasRooms: true });
     };
 
-    this.socket.emit('JOIN_LOBBY');
+    this.socket.emit('JOIN_LOBBY', {
+      userName: appStore.userName,
+      userColor: appStore.userColor
+    });
 
   }
   componentWillUnmount() {
@@ -43,12 +46,16 @@ class Rooms extends React.Component {
             <div className="card">
               <div style={{ display: (this.state.hasRooms ? 'block' : 'none') }} className="rooms list-group">
                 {appStore.rooms.map(room => {
-                  return (
-                    <Link key={room.id} to={`/room/${room.id}`} className="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">
-                      <h5 className="mb-0">{room.name}</h5>
-                      <span className="badge badge-pill badge-dark">{room.users.length} users</span>
-                    </Link>
-                  )
+                  if (room.id !== 'lobby'){
+                    return (
+                      <Link key={room.id} to={`/room/${room.id}`} className="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">
+                        <h5 className="mb-0">{room.name}</h5>
+                        <span className="badge badge-pill badge-dark">{room.users.length} users</span>
+                      </Link>
+                    )
+                  }else{
+                    return false;
+                  }
                 })}
               </div>
             </div>

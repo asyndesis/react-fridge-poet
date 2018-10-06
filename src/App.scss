@@ -2,11 +2,29 @@ body{
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
-  &.android{
-    #fridge-wrapper{
-      overflow:auto;
-      scroll-behavior: smooth;
+  &.is-dragging{
+    .pop-button, .magnet{
+      transition:none;
+      pointer-events: none;
     }
+    .magnet-placeholder{
+      display:block;
+    }
+    .pop-panel{
+      opacity:.26;
+    }
+  }
+}
+#screen-holder{
+  pointer-events:none;
+  width:100vw;
+  height:100vh;
+  position:fixed;
+  #screen-holder-inside{
+    position:relative;
+    pointer-events:none;
+    width:100vw;
+    height:100vh;
   }
 }
 #fridge-wrapper{
@@ -16,13 +34,12 @@ body{
   background:#CCC;
   position:relative;
   overflow:hidden;
-  &.dragging{
-    .pop-button, .magnet{
-      transition:none;
-      pointer-events: none;
-    }
-    .magnet-placeholder{
-      display:block;
+  &.dark{
+    background:#000;
+    .magnet, .magnet-placeholder{
+      background:#555;
+      color:#FFF;
+      border:1px solid #AAA;
     }
   }
 }
@@ -91,11 +108,9 @@ body{
   float:right;
   pointer-events: all;
   margin-left:6px;
-  pointer-events: none;
-}
-.pop-panel.active .pop-button{
   pointer-events: all;
 }
+
 .pop-button{
   &.open{
     .pop-button-icon{
@@ -115,13 +130,13 @@ body{
   width:50px;
   height:50px;
   background:#FFF;
-  border:1px solid #AAA;
-  cursor:pointer;
+  border:1px solid rgba(0,0,0,.55);
+  cursor: pointer;
   text-align:center;
   opacity:.8;
   border-radius:50px;
   &:hover{
-    border-color:#888;
+    border-color:rgba(0,0,0,.65);
     opacity:1;
   }
   i{
@@ -207,7 +222,8 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height:300px;
+  min-height:100px;
+  height:100%;
 }
 .lds-ring {
   display: inline-block;

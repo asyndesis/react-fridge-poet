@@ -5,7 +5,7 @@ class Magnet extends React.Component{
   render(){
     return (
       <div
-      className="magnet noselect"
+      className="magnet noselect "
       id={this.props.id}
       onMouseDown={this.props.onMouseDown}
       onMouseUp={this.props.onMouseUp}

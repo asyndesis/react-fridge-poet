@@ -6,6 +6,9 @@ import Fridge from "./Fridge";
 import Login from "./Login";
 import SweetAlert from 'sweetalert2-react';
 import { Socket } from "./Socket";
+import Chat from "./Chat";
+import PopPanel from "./PopPanel";
+import PopButton from "./PopButton";
 
 class App extends Component {
   constructor(props){
@@ -54,6 +57,11 @@ class App extends Component {
           text={this.state.statusMessage}
           onConfirm={() => this.setState({ hasStatus: false })}
         />
+        <PopPanel className="main-pop-panel">
+          <Chat/>
+          <PopButton icon="fa fa-home" to="/room"/>
+          <PopButton icon="fa fa-cog" to="/"/>
+        </PopPanel>
         <Switch>
           <Route exact path='/' component={Login}/>
           <Route exact path='/room' component={Rooms}/>

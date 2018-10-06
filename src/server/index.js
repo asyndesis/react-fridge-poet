@@ -18,6 +18,7 @@ const roomTypes = magnets.getRoomTypes();
 
 const spawnRooms = () => {
     let rooms = [
+        {id: 'lobby', name:'The Lobby', users:[]},
         {id: 'basic', name:'Basic Room', users:[], magnets: magnets.spawnMagnets(['basic'])},
         {id: 'haiku', name:'Haiku Room', users:[], magnets: magnets.spawnMagnets(['haiku'])},
     ];
@@ -43,15 +44,19 @@ const socketLeaveAllRooms = socket => {
     if (io.sockets.adapter.sids[socket.id]){
         socketRooms = Object.keys( io.sockets.adapter.sids[socket.id] );
     }
+
     rooms.forEach(function(room){
+        let user = room.users.find(u => u.id === socket.id);
+        if (user !== undefined){
+            socket.broadcast.to(room.id).emit('USER_LEFT', {user: user, room:{name: room.name}});
+        }
         room.users = room.users.filter(function (user) {
             return user.id !== socket.id;
         });
     });
-
+    
     socketRooms.forEach(function(r){
         if (r !== socket.id){
-            let room = rooms.find(rr => rr.id === r);
             socket.leave(r);
         }
     });
@@ -64,6 +69,7 @@ function highestMagnet(m) {
 }
 
 var rooms = spawnRooms();
+var users = [];
 
 io.on('connection', (socket) => {
 
@@ -77,10 +83,19 @@ io.on('connection', (socket) => {
         socket.join(data.room_id);
         room.users.push(user);
         socket.emit('POPULATE_MAGNETS', room.magnets);
-        io.to(room.id).emit('USER_JOINED', {user: user});
+        socket.broadcast.to(room.id).emit('USER_JOINED', {user: user, room:{name: room.name}});
     });
 
-
+    socket.on('JOIN_LOBBY',function(data){
+        let room = rooms.find(r => r.id === 'lobby');
+        let user = {id:socket.id,name:data.userName,color:data.userColor};
+        socketLeaveAllRooms(socket);
+        socket.join(room.id);
+        room.users.push(user);
+        socket.emit('RECEIVE_ROOMS', rooms);
+        socket.broadcast.to(room.id).emit('USER_JOINED', {user: user, room:{name: 'Lobby'}});
+    });
+    
     socket.on('SEND_MESSAGE',function(data){
         let room_id = getSocketRoom(socket);
         let room = rooms.find(r => r.id === room_id);
@@ -102,7 +117,7 @@ io.on('connection', (socket) => {
     socket.on('CREATE_ROOM',function(data){
         let room = rooms.find(r => r.id === data.roomUrl);
         let rt = [];
-        if (data.roomUrl === '-' || data.roomUrl === '' || data.roomUrl === ' '){
+        if (data.roomUrl === '-' || data.roomUrl === '' || data.roomUrl === ' ' || data.roomUrl === 'lobby'){
             socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please enter a valid room name.'});
             return false;
         }
@@ -129,11 +144,6 @@ io.on('connection', (socket) => {
         }
         rooms.unshift({id: data.roomUrl, name:data.roomName, users:[], magnets: magnets.spawnMagnets(rt)});
         socket.emit('ROOM_CREATED', {room:data.roomUrl});
-    });
-
-    socket.on('JOIN_LOBBY',function(data){
-        socketLeaveAllRooms(socket);
-        socket.emit('RECEIVE_ROOMS', rooms);
     });
 
     socket.on('MOVE_MAGNET', function(data){

@@ -23,6 +23,11 @@ class Chat extends Component {
       addMessage(data);
     });
 
+    this.socket.on('USER_LEFT', function (data) {
+      data.type = "left";
+      addMessage(data);
+    });
+
     this.socket.on('RECIEVE_MESSAGE', function (data) {
       data.type = 'message';
       addMessage(data);
@@ -108,7 +113,7 @@ class Chat extends Component {
                 )}else{
                   return(
                     <div key={i} className="chat-message">
-                      <span className="chat-user" style={{color:m.user.color}} >[{m.user.name} has joined.] </span>
+                      <span className="chat-user" style={{color:m.user.color}} >[{m.user.name} has {m.type} {m.room.name}.] </span>
                     </div>
                   )
                 }
