@@ -22,10 +22,12 @@ class Rooms extends React.Component {
       !this.isCancelled && this.setState({ hasRooms: true });
     };
 
+    /*
     this.socket.emit('JOIN_LOBBY', {
       userName: appStore.userName,
       userColor: appStore.userColor
     });
+    */
 
   }
   componentWillUnmount() {

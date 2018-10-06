@@ -3,8 +3,9 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const server = app.listen(port);
+const socket = require('socket.io');
 const magnets = require('./magnets');
-var io = require('socket.io').listen(server);
+io = socket(server);
 
 app.use(express.static(path.join(__dirname,'../../build')));
 app.get('*', (req, res) => {
