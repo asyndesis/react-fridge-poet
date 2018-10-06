@@ -86,13 +86,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('JOIN_LOBBY',function(data){
-        let room = rooms.find(r => r.id === 'lobby');
-        let user = {id:socket.id,name:data.userName,color:data.userColor};
+        //let room = rooms.find(r => r.id === 'lobby');
+        //let user = {id:socket.id,name:data.userName,color:data.userColor};
         socketLeaveAllRooms(socket);
-        socket.join(room.id);
-        room.users.push(user);
+        //socket.join(room.id);
+        //room.users.push(user);
         socket.emit('RECEIVE_ROOMS', rooms);
-        socket.broadcast.to(room.id).emit('USER_JOINED', {user: user, room:{name: 'Lobby'}});
+        //socket.broadcast.to(room.id).emit('USER_JOINED', {user: user, room:{name: 'Lobby'}});
     });
     
     socket.on('SEND_MESSAGE',function(data){
