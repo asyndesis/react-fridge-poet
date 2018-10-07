@@ -73,8 +73,10 @@ var rooms = spawnRooms();
 io.on('connection', (socket) => {
 
     socket.on('JOIN_ROOM', function(data){
+        let name = data.userName || 'anonymous';
+        let color = data.userColor || '#888888';
         let room = rooms.find(r => r.id === data.room_id);
-        let user = {id:socket.id,name:data.userName,color:data.userColor};
+        let user = {id:socket.id,name: name, color: color};
         if (room == undefined){
             return false;
         }
@@ -86,13 +88,15 @@ io.on('connection', (socket) => {
     });
 
     socket.on('JOIN_LOBBY',function(data){
-        //let room = rooms.find(r => r.id === 'lobby');
-        //let user = {id:socket.id,name:data.userName,color:data.userColor};
+        let name = data.userName || 'anonymous';
+        let color = data.userColor || '#888888';
+        let room = rooms.find(r => r.id === 'lobby');
+        let user = {id:socket.id,name: name, color: color};
         socketLeaveAllRooms(socket);
-        //socket.join(room.id);
-        //room.users.push(user);
+        socket.join(room.id);
+        room.users.push(user);
         socket.emit('RECEIVE_ROOMS', rooms);
-        //socket.broadcast.to(room.id).emit('USER_JOINED', {user: user, room:{name: 'Lobby'}});
+        socket.broadcast.to(room.id).emit('USER_JOINED', {user: user, room:{name: 'Lobby'}});
     });
     
     socket.on('SEND_MESSAGE',function(data){
