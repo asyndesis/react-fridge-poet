@@ -95,6 +95,7 @@ class Rooms extends React.Component {
                 <label>Room URL</label>
                 <input ref="roomUrl" type="text" placeholder="Room URL" disabled className="form-control form-control-lg" />
               </div>
+              <label>Magnet Kits</label>
               <div className="card" style={{marginBottom:'15px'}}>
                 <div className="list-group">
                   {appStore.roomTypes.map(roomType => {

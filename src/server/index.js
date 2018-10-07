@@ -102,11 +102,13 @@ io.on('connection', (socket) => {
     socket.on('SEND_MESSAGE',function(data){
         let room_id = getSocketRoom(socket);
         let room = rooms.find(r => r.id === room_id);
-        let user = room.users.find(u => u.id === socket.id);
         if (room == undefined){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'You are not currently in any room.'});
             return false;
         }
+        let user = room.users.find(u => u.id === socket.id);
         if (user == undefined){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'You are not currently in any room.'});
             return false;
         }
         io.to(room.id).emit('RECIEVE_MESSAGE', {user:user,message:data.message});

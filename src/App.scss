@@ -15,18 +15,6 @@ body{
     }
   }
 }
-#screen-holder{
-  pointer-events:none;
-  width:100vw;
-  height:100vh;
-  position:fixed;
-  #screen-holder-inside{
-    position:relative;
-    pointer-events:none;
-    width:100vw;
-    height:100vh;
-  }
-}
 #fridge-wrapper{
   position:relative;
 }
