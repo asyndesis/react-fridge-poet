@@ -51,7 +51,7 @@ class Rooms extends React.Component {
                     return (
                       <Link key={room.id} to={`/room/${room.id}`} className="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">
                         <h5 className="mb-0">{room.name}</h5>
-                        <span className="badge badge-pill badge-dark">{room.users.length} users</span>
+                        <span className="badge badge-pill badge-dark"><i style={{opacity:.75}} className="fa fa-fw fa-users"></i> {room.users.length} / {room.maxUsers}</span>
                       </Link>
                     )
                   }else{

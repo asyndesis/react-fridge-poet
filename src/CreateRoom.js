@@ -13,6 +13,7 @@ class Rooms extends React.Component {
       hasRoomOptions: false,
       roomName:'',
       roomUrl:'',
+      maxUsers:'',
       checkedTypes: new Map()
     }
     this.socket = Socket;
@@ -64,6 +65,7 @@ class Rooms extends React.Component {
       this.socket.emit('CREATE_ROOM',{
         roomName: this.state.roomName,
         roomUrl: this.state.roomUrl,
+        maxUsers: this.state.maxUsers,
         checkedTypes: objMap
       });
     }
@@ -87,9 +89,19 @@ class Rooms extends React.Component {
               <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
             <div style={{ display: (this.state.hasRoomOptions ? 'block' : 'none') }} className="rooms list-group">
-              <div className="form-group">
-                <label>Room Name</label>
-                <input ref="roomName" type="text" placeholder="Room Name" onChange={this.changeRoomName} className="form-control form-control-lg" />
+              <div className="row">
+                <div className="col-6">
+                  <div className="form-group">
+                    <label>Room Name</label>
+                    <input ref="roomName" type="text" placeholder="Room Name" onChange={this.changeRoomName} className="form-control form-control-lg" />
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="form-group">
+                    <label>Max Users</label>
+                    <input type="text" placeholder="1-10" min="1" max="10" step="1" value={this.state.maxUsers} onChange={e => this.setState({ maxUsers: e.target.value })} className="form-control form-control-lg" />
+                  </div>
+                </div>
               </div>
               <div className="form-group">
                 <label>Room URL</label>

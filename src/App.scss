@@ -318,3 +318,8 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+.swal2-container{
+  .swal2-title{
+    text-transform: capitalize!important;
+  }
+}

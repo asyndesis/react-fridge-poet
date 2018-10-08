@@ -18,9 +18,9 @@ const roomTypes = magnets.getRoomTypes();
 
 const spawnRooms = () => {
     let rooms = [
-        {id: 'lobby', name:'The Lobby', users:[]},
-        {id: 'basic', name:'Basic Room', users:[], magnets: magnets.spawnMagnets(['basic'])},
-        {id: 'haiku', name:'Haiku Room', users:[], magnets: magnets.spawnMagnets(['haiku'])},
+        {id: 'lobby', name:'The Lobby', users:[], maxUsers: 9999999},
+        {id: 'basic', name:'Basic Room', users:[], maxUsers: 10, magnets: magnets.spawnMagnets(['basic'])},
+        {id: 'haiku', name:'Haiku Room', users:[], maxUsers: 10, magnets: magnets.spawnMagnets(['haiku'])},
     ];
     return rooms;
 }
@@ -80,6 +80,10 @@ io.on('connection', (socket) => {
         if (room == undefined){
             return false;
         }
+        if (room.users.length >= room.maxUsers){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'The room is full.'});
+            return false;
+        }
         socketLeaveAllRooms(socket);
         socket.join(data.room_id);
         room.users.push(user);
@@ -126,6 +130,20 @@ io.on('connection', (socket) => {
             socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please enter a valid room name.'});
             return false;
         }
+        if (!data.maxUsers){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please set max users for this room.'});
+            return false;
+        }else{
+            data.maxUsers = parseInt(data.maxUsers,10);
+        }
+        if (!Number.isInteger(data.maxUsers)){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please set max users as an integer.'});
+            return false;
+        }
+        if (data.maxUsers < 1 || data.maxUsers > 10){
+            socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please set max users from 1 to 10.'});
+            return false;
+        }
         if (!data.checkedTypes){
             socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please select some magnet types.'});
             return false;
@@ -147,7 +165,7 @@ io.on('connection', (socket) => {
             socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'Please select some magnet types.'});
             return false;
         }
-        rooms.unshift({id: data.roomUrl, name:data.roomName, users:[], magnets: magnets.spawnMagnets(rt)});
+        rooms.unshift({id: data.roomUrl, maxUsers: data.maxUsers, name:data.roomName, users:[], magnets: magnets.spawnMagnets(rt)});
         socket.emit('ROOM_CREATED', {room:data.roomUrl});
     });
 
