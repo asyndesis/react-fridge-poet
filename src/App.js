@@ -59,12 +59,13 @@ class App extends Component {
         />
         <PopPanel className="main-pop-panel">
           <Chat/>
-          <PopButton icon="fa fa-home" to="/room"/>
+          <PopButton icon="fa fa-home" to="/room/lobby"/>
           <PopButton icon="fa fa-cog" to="/"/>
         </PopPanel>
         <Switch>
           <Route exact path='/' component={Login}/>
           <Route exact path='/room' component={Rooms}/>
+          <Route exact path='/room/lobby' component={Rooms}/>
           <Route exact path='/create-room' component={CreateRoom}/>
           <Route path='/room/:room' component={Fridge}/>
         </Switch>

@@ -30,7 +30,6 @@ class Login extends Component {
           <div className="card-header">
             <h4>Fridge Poet</h4>
           </div>
-
           <div className="card-body">
             <div className="form-group">
               <label>Alias</label>
@@ -47,7 +46,7 @@ class Login extends Component {
                 <input type="text" placeholder="Favorite Color" value={this.state.userColor} onChange={e => this.setState({ userColor: e.target.value })} className="form-control form-control-lg" />
               </div>
             </div>
-            <Link onClick={this.handleLogin} className="btn btn-lg btn-primary btn-block" to='/room'>Rooms List</Link>
+            <Link onClick={this.handleLogin} className="btn btn-lg btn-primary btn-block" to={"/room/"+appStore.currentRoom}>{appStore.currentRoom === 'lobby' ? 'Enter Lobby' : 'Back to Room'}</Link>
           </div>
         </div>
       </div>

@@ -19,20 +19,17 @@ class Fridge extends React.Component {
     };
 
     this.socket = Socket;
-    this.room = props.match.params.room;
-
     appStore.unread = 0;
     appStore.messages = [];
 
     this.socket.emit('JOIN_ROOM', {
-      room_id: this.room,
+      room_id: props.match.params.room,
       userName: appStore.userName,
       userColor: appStore.userColor
     });
 
-
-
     this.socket.on('POPULATE_MAGNETS', function (data) {
+      appStore.currentRoom = props.match.params.room; 
       populateMagnets(data);
     });
 

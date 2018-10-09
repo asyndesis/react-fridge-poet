@@ -6,6 +6,7 @@ const appStore = store({
   rooms: [],
   userName: localStorage.getItem('userName') || 'anonymous',
   userColor: localStorage.getItem('userColor') || 'gray',
+  currentRoom: 'lobby',
   roomTypes: [],
   messages: [],
   unread: 0,

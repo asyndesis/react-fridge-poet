@@ -14,6 +14,7 @@ class Rooms extends React.Component {
     this.socket = Socket;
 
     this.socket.on('RECEIVE_ROOMS', function (data) {
+      appStore.currentRoom = 'lobby'; 
       populateRooms(data);
     });
 
@@ -44,8 +45,8 @@ class Rooms extends React.Component {
             <div style={{ display: (this.state.hasRooms ? 'none' : 'flex') }} className="loading">
               <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
             </div>
-            <div className="card">
-              <div style={{ display: (this.state.hasRooms ? 'block' : 'none') }} className="rooms list-group">
+            <div className="card" style={{ display: (this.state.hasRooms ? 'block' : 'none') }}>
+              <div  className="rooms list-group">
                 {appStore.rooms.map(room => {
                   if (room.id !== 'lobby'){
                     return (
