@@ -45,6 +45,9 @@ class App extends Component {
     }
   }
   componentDidMount(){
+    if (navigator.userAgent.toLowerCase().indexOf("android") > -1){
+      document.body.classList.add('is-android');
+    }
     this.preventPullToRefresh();
   }
   render() {

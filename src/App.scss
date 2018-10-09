@@ -5,6 +5,14 @@ html{
 }
 body{
   background:transparent;
+  &.is-android{
+    overflow:hidden;
+    #root{
+      overflow:scroll;
+      height:100vh;
+      width:100vw;
+    }
+  }
   &.is-dragging{
     .pop-button, .magnet{
       transition:none;

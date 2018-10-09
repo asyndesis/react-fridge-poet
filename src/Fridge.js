@@ -67,52 +67,59 @@ class Fridge extends React.Component {
       let fridgeWidth = document.getElementById('fridge').clientWidth;
       let fridgeHeight = document.getElementById('fridge').clientHeight;
       let doc = document.documentElement;
-      let scrollLimit = 100;
-
+      var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      let scrollLimitX = w * 0.15;
+      let scrollLimitY = h * 0.15;
+      let theBody = document.body;
       let left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
       let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
 
       if (e.nativeEvent.touches) {
         theX = e.nativeEvent.touches[0].clientX;
         theY = e.nativeEvent.touches[0].clientY;
-        let theBody = document.body
+        if (navigator.userAgent.toLowerCase().indexOf("android") > -1){
+          doc = document.getElementById('root');
+          theBody = document.getElementById('root');
+        }
         if (this.state.isDragging && this.state.currentMagnet !== -1) {
-          if (document.documentElement.clientWidth - theX < scrollLimit &&
+          if (document.documentElement.clientWidth - theX < scrollLimitX &&
               fridgeWidth - (document.documentElement.clientWidth + theBody.scrollLeft) > 0 ){
-            theBody.scrollLeft += scrollLimit - (document.documentElement.clientWidth - theX);
+            theBody.scrollLeft += scrollLimitX - (document.documentElement.clientWidth - theX);
           }
-          if (document.documentElement.clientHeight - theY < scrollLimit &&
+          if (document.documentElement.clientHeight - theY < scrollLimitY &&
               fridgeHeight - (document.documentElement.clientHeight + theBody.scrollTop) > 0){
-            theBody.scrollTop += scrollLimit - (document.documentElement.clientHeight - theY);
+            theBody.scrollTop += scrollLimitY - (document.documentElement.clientHeight - theY);
           }
-          if (theX < scrollLimit &&
+          if (theX < scrollLimitX &&
             theBody.scrollLeft > 0){
-            theBody.scrollLeft -= scrollLimit - theX;
+            theBody.scrollLeft -= scrollLimitX - theX;
           }
-          if (theY < scrollLimit  &&
+          if (theY < scrollLimitY  &&
             theBody.scrollTop > 0){
-            theBody.scrollTop -= scrollLimit - theY;
+            theBody.scrollTop -= scrollLimitY - theY;
           }
         }
       } else {
         theX = e.nativeEvent.clientX;
         theY = e.nativeEvent.clientY;
         if (this.state.isDragging && this.state.currentMagnet !== -1) {
-          if (window.innerWidth - theX < (scrollLimit) &&
+          if (window.innerWidth - theX < (scrollLimitX) &&
             fridgeWidth - (window.innerWidth + doc.scrollLeft) > 0){
-            doc.scrollLeft += (scrollLimit) - (window.innerWidth - theX);
+            doc.scrollLeft += (scrollLimitX) - (window.innerWidth - theX);
           }
-          if (window.innerHeight - theY < (scrollLimit) &&
+          if (window.innerHeight - theY < (scrollLimitY) &&
             fridgeHeight - (window.innerHeight + doc.scrollTop) > 0){
-            doc.scrollTop += (scrollLimit) - (window.innerHeight - theY);
+            doc.scrollTop += (scrollLimitY) - (window.innerHeight - theY);
           }
-          if (theX < (scrollLimit) &&
+          if (theX < (scrollLimitX) &&
               doc.scrollLeft > 0){
-            doc.scrollLeft -= (scrollLimit) - theX;
+            doc.scrollLeft -= (scrollLimitX) - theX;
           }
-          if (theY < (scrollLimit) &&
+          if (theY < (scrollLimitY) &&
              doc.scrollTop > 0){
-            doc.scrollTop -= (scrollLimit) - theY;
+            doc.scrollTop -= (scrollLimitY) - theY;
           }
         }
       }
