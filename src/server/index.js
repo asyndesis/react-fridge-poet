@@ -39,13 +39,16 @@ const getSocketRoom = socket => {
     return theRoom;
 }
 
-const socketLeaveAllRooms = socket => {
+const socketLeaveAllRooms = (socket,except_id) => {
     let socketRooms = [];
     if (io.sockets.adapter.sids[socket.id]){
         socketRooms = Object.keys( io.sockets.adapter.sids[socket.id] );
     }
 
     rooms.forEach(function(room){
+        if (room.id === except_id){
+            return false;
+        }
         let user = room.users.find(u => u.id === socket.id);
         if (user !== undefined){
             socket.broadcast.to(room.id).emit('USER_LEFT', {user: user, room:{name: room.name}});
@@ -56,7 +59,7 @@ const socketLeaveAllRooms = socket => {
     });
     
     socketRooms.forEach(function(r){
-        if (r !== socket.id){
+        if (r !== socket.id && r !== except_id){
             socket.leave(r);
         }
     });
@@ -84,8 +87,8 @@ io.on('connection', (socket) => {
             socket.emit('SHOW_STATUS_MESSAGE', {type:'warning',message:'The room is full.'});
             return false;
         }
-        socketLeaveAllRooms(socket);
-        socket.join(data.room_id);
+        socketLeaveAllRooms(socket,room.id);
+        socket.join(room.id);
         room.users.push(user);
         socket.emit('POPULATE_MAGNETS', room.magnets);
         socket.broadcast.to(room.id).emit('USER_JOINED', {user: user, room:{name: room.name}});
@@ -96,7 +99,7 @@ io.on('connection', (socket) => {
         let color = data.userColor || '#888888';
         let room = rooms.find(r => r.id === 'lobby');
         let user = {id:socket.id,name: name, color: color};
-        socketLeaveAllRooms(socket);
+        socketLeaveAllRooms(socket,'lobby');
         socket.join(room.id);
         room.users.push(user);
         socket.emit('RECEIVE_ROOMS', rooms);
@@ -119,7 +122,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('GET_ROOM_OPTIONS',function(data){
-        socketLeaveAllRooms(socket);
         socket.emit('RECEIVE_ROOM_OPTIONS', {roomTypes:roomTypes});
     });
 
