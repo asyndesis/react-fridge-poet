@@ -1,9 +1,4 @@
 import io from "socket.io-client";
-
-var server = 'http://jempy.local:8000';
-//var server = 'http://Blumpkin.local:8000';
-if (process.env.NODE_ENV === 'production') { 
-    server = 'https://fridge-poet.herokuapp.com';
-}
+var server = "https://fridge-poet-server.onrender.com";
 export const Socket = io.connect(server);
-export default '';
+export default "";
