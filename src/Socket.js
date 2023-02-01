@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-export const Socket = io.connect("https://fridge-poet-server.onrender.com");
+export const Socket = io.connect(process.env.SOCKET_URL);
 const interval = window.setInterval(() => {
   if (Socket.connected) {
     window.dispatchEvent(new Event("socket_found"));
