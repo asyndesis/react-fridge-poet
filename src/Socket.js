@@ -1,8 +1,9 @@
 import io from "socket.io-client";
-var server = "https://fridge-poet-server.onrender.com";
-export const Socket = io.connect(server);
-window.setInterval(() => {
-  if (Socket.connected) window.dispatchEvent(new Event("socket_found"));
-  if (!Socket.connected) window.dispatchEvent(new Event("socket_lost"));
-}, 5000);
-export default "";
+export const Socket = io.connect("https://fridge-poet-server.onrender.com");
+const interval = window.setInterval(() => {
+  if (Socket.connected) {
+    window.dispatchEvent(new Event("socket_found"));
+    window.clearInterval(interval);
+  }
+}, 1000);
+export default Socket;

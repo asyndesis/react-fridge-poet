@@ -1,34 +1,32 @@
 import React from "react";
 import { Socket } from "./Socket";
-import { view } from 'react-easy-state';
-import { Link } from 'react-router-dom';
-import appStore from './appStore';
+import { view } from "@risingstack/react-easy-state";
+import { Link } from "react-router-dom";
+import appStore from "./appStore";
 
 class Rooms extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      hasRooms: false
-    }
+      hasRooms: false,
+    };
     this.socket = Socket;
 
-    this.socket.on('RECEIVE_ROOMS', function (data) {
-      appStore.currentRoom = 'lobby'; 
+    this.socket.on("RECEIVE_ROOMS", function (data) {
+      appStore.currentRoom = "lobby";
       populateRooms(data);
     });
 
-    const populateRooms = data => {
+    const populateRooms = (data) => {
       appStore.rooms = data;
       !this.isCancelled && this.setState({ hasRooms: true });
     };
 
-
-    this.socket.emit('JOIN_LOBBY', {
+    this.socket.emit("JOIN_LOBBY", {
       userName: appStore.userName,
-      userColor: appStore.userColor
+      userColor: appStore.userColor,
     });
-
   }
   componentWillUnmount() {
     this.isCancelled = true;
@@ -36,32 +34,57 @@ class Rooms extends React.Component {
   render() {
     return (
       <div className="container pad-top">
-        <div className="card text-white bg-dark" style={{maxWidth:'600px',margin:'0 auto'}}>
+        <div
+          className="card text-white bg-dark"
+          style={{ maxWidth: "600px", margin: "0 auto" }}
+        >
           <div className="card-header">
-            <Link className="btn btn-success float-right" to="/create-room"><i className="fa fa-plus"></i> Create Room</Link>
+            <Link className="btn btn-success float-right" to="/create-room">
+              <i className="fa fa-plus"></i> Create Room
+            </Link>
             <h4>Rooms List</h4>
           </div>
           <div className="card-body">
-            <div style={{ display: (this.state.hasRooms ? 'none' : 'flex') }} className="loading">
-              <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+            <div
+              style={{ display: this.state.hasRooms ? "none" : "flex" }}
+              className="loading"
+            >
+              <div className="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
             </div>
-            <div className="card" style={{ display: (this.state.hasRooms ? 'block' : 'none') }}>
-              <div  className="rooms list-group">
-                {appStore.rooms.map(room => {
-                  if (room.id !== 'lobby'){
+            <div
+              className="card"
+              style={{ display: this.state.hasRooms ? "block" : "none" }}
+            >
+              <div className="rooms list-group">
+                {appStore.rooms.map((room) => {
+                  if (room.id !== "lobby") {
                     return (
-                      <Link key={room.id} to={`/room/${room.id}`} className="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center">
+                      <Link
+                        key={room.id}
+                        to={`/room/${room.id}`}
+                        className="list-group-item list-group-item-dark list-group-item-action d-flex justify-content-between align-items-center"
+                      >
                         <h5 className="mb-0">{room.name}</h5>
-                        <span className="badge badge-pill badge-dark"><i style={{opacity:.75}} className="fa fa-fw fa-users"></i> {room.users.length} / {room.maxUsers}</span>
+                        <span className="badge badge-pill badge-dark">
+                          <i
+                            style={{ opacity: 0.75 }}
+                            className="fa fa-fw fa-users"
+                          ></i>{" "}
+                          {room.users.length} / {room.maxUsers}
+                        </span>
                       </Link>
-                    )
-                  }else{
+                    );
+                  } else {
                     return false;
                   }
                 })}
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -69,4 +92,4 @@ class Rooms extends React.Component {
   }
 }
 
-export default view(Rooms)
+export default view(Rooms);
