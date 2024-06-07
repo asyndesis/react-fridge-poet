@@ -1,0 +1,46 @@
+# fly.toml app configuration file generated for react-fridge-poet on 2024-06-07T21:05:09+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'react-fridge-poet'
+primary_region = 'mad'
+
+[build]
+  image = "node:14"
+
+[env]
+  NODE_ENV = "production"
+
+[deploy]
+  release_command = "npm run build"
+
+[experimental]
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.http_checks]]
+    interval = 10000
+    grace_period = "5s"
+    method = "get"
+    path = "/"
+    protocol = "http"
+    timeout = 2000
+    tls_skip_verify = false
