@@ -6,7 +6,7 @@ let hasErrorOccurred = false;
 const handleSocketError = () => {
   if (!hasErrorOccurred) {
     hasErrorOccurred = true;
-    window.location.reload();
+    Socket.connect(); // Attempt to reconnect
   }
 };
 
